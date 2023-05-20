@@ -11,7 +11,8 @@ dayjs.extend(localizedFormat)
 
   const GLOBE_TEXTURES = [
     'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-blue-marble.jpg',
-    require('../assets/earth-water.png')
+    require('../assets/earth-water.png'),
+    'https://cdn.discordapp.com/attachments/828364653800325120/1109426904005615756/earth-water2.png'
   ]
 
 export const CustomGlobe = () => {
@@ -76,7 +77,7 @@ export const CustomGlobe = () => {
 
     // console.log({objectsData})
 
-    const [globeTexture, setGlobeTexture] = useState(GLOBE_TEXTURES[1])
+    const [globeTexture, setGlobeTexture] = useState(GLOBE_TEXTURES[0])
 
     const satGeometry = (radius = RADIUS) =>  new THREE.OctahedronGeometry( radius, 0);;
     const satMaterial = (color='white') => new THREE.MeshLambertMaterial({ color, transparent: true, opacity: 0.7 });
@@ -96,6 +97,7 @@ export const CustomGlobe = () => {
     }, []);
 
 
+    // https://codesandbox.io/s/offset-globe-bv763?file=/src/App.js:304-328
     // eslint-disable-next-line no-restricted-globals
     const w = screen.availWidth;
     const shiftFactor = 0.55;
