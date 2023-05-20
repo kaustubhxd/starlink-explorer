@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import * as THREE from 'three'
 import Globe from 'react-globe.gl';
 import dayjs from 'dayjs';
+import {client} from '../helpers/axiosClient'
 var localizedFormat = require('dayjs/plugin/localizedFormat')
 dayjs.extend(localizedFormat)
 
@@ -10,14 +11,14 @@ dayjs.extend(localizedFormat)
   const TIME_STEP = 3 * 1000; // per frame
 
   const GLOBE_TEXTURES = [
-    'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-blue-marble.jpg',
     require('../assets/earth-water.png'),
-    'https://cdn.discordapp.com/attachments/828364653800325120/1109426904005615756/earth-water2.png'
+    'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-blue-marble.jpg',
+    'https://cdn.discordapp.com/attachments/828364653800325120/1109426904005615756/earth-water2.png',
+    "https://cdn.discordapp.com/attachments/828364653800325120/1109450421858218026/earth-water4.png"
   ]
 
-export const CustomGlobe = () => {
+export const CustomGlobe = ({globeTexture, starlinkData, selectedSat, handleSatSelect}) => {
     const globeEl = useRef();
-    const [starlinkData, setStarlinkData] = useState()
 
     const [globeRadius, setGlobeRadius] = useState();
     const [time, setTime] = useState(new Date());
@@ -34,24 +35,14 @@ export const CustomGlobe = () => {
       globeEl.current.controls().autoRotate = rotate;
     }
 
+
     useEffect(() => {
       // load satellite data
-      globeEl.current.controls().enableZoom = false;
+      globeEl.current.controls().enableZoom = true;
       globeEl.current.controls().autoRotateSpeed = 0.4;
       handleGlobeRotate(true)
-
-
-      fetch('https://api.spacexdata.com/v4/starlink')
-        .then(r => r.json())
-        .then(res => {
-          const data = res.filter(item => !!item.latitude).slice(0,200)
-          console.log(data)
-
-          setStarlinkData(data)
-        })
     }, []);
 
-    const [selectedSat, setSelectedSat] = useState(null)
 
     const RADIUS = SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2
 
@@ -61,35 +52,31 @@ export const CustomGlobe = () => {
       return starlinkData.map(d => {
 
 
+          const id = d.id
           const name = d.spaceTrack.OBJECT_NAME
-          const isSelected = selectedSat && selectedSat === name
+          const isSelected = selectedSat === id
 
           const lat = d.latitude
           const lng = d.longitude
           const alt = (d.height_km / EARTH_RADIUS_KM) * 2;
-          const color = isSelected ? 'dodgerblue' : 'white'
+          const color = isSelected ? '#56ED5C' : 'white'
           const size = isSelected ? RADIUS * 2 : RADIUS 
           const launchDate = d.spaceTrack.LAUNCH_DATE
 
-          return { name, lat, lng, alt, color, size,launchDate };
+          return { id, name, lat, lng, alt, color, size,launchDate };
       });
     }, [starlinkData, time]);
 
     // console.log({objectsData})
 
-    const [globeTexture, setGlobeTexture] = useState(GLOBE_TEXTURES[0])
-
     const satGeometry = (radius = RADIUS) =>  new THREE.OctahedronGeometry( radius, 0);;
     const satMaterial = (color='white') => new THREE.MeshLambertMaterial({ color, transparent: true, opacity: 0.7 });
 
-    const satObject = useMemo(() => {
-      if (!globeRadius) return undefined;
-
-      // const satGeometry = new THREE.SphereGeometry(SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2, 32, 16);
-      
-      return new THREE.Mesh(satGeometry(), satMaterial());
-
-    }, [globeRadius]);
+    // const satObject = useMemo(() => {
+    //   if (!globeRadius) return undefined;
+    //   // const satGeometry = new THREE.SphereGeometry(SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2, 32, 16);
+    //   return new THREE.Mesh(satGeometry(), satMaterial());
+    // }, [globeRadius]);
 
     useEffect(() => {
       setGlobeRadius(globeEl.current.getGlobeRadius());
@@ -103,28 +90,47 @@ export const CustomGlobe = () => {
     const shiftFactor = 0.55;
     const shiftAmmount = shiftFactor * w;
 
+    useEffect(() => {
+      if(selectedSat){
+        const {latitude: lat, longitude: lng} = starlinkData.find((a) => a.id === selectedSat) 
+        console.log(selectedSat,lat,lng)
+        globeEl.current.pointOfView({lat, lng, altitude: 3}, 700)
+      }
+    },[selectedSat])
+
     return (
       <div 
-        className='globe-parent'
+        className='globe-parent cursor-grab'
         style={{
-          marginLeft: `-${shiftAmmount}px`,        
+          // marginLeft: `-${shiftAmmount}px`, 
+          // marginTop: '-70px',   
+          // backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)',
         }}
         onClick={(e) => {
           if(e.target.className === 'clickable')  return
-          setSelectedSat(null)
+          handleSatSelect(null)
           handleGlobeRotate(true)
         }}
       >
         <Globe
+          width={window.innerWidth / 2}
+          height={window.innerHeight - 100}
           ref={globeEl}
-          width={w + shiftAmmount}
-          globeImageUrl={globeTexture}
+          // width={w + shiftAmmount}
+          globeImageUrl={GLOBE_TEXTURES[globeTexture]}
           objectsData={objectsData}
+          // objectLabel={function (object) {
+          //   return `<div class='scene-tooltip-container'>
+          //             <div>${object.name}</div>
+          //             <div>Launch: ${object.launchDate && dayjs(object.launchDate).format('LL')}</div>
+          //           </div>`
+          // }}
           objectLabel={function (object) {
-            return `<div class='scene-tooltip-container'>
-                      <div>${object.name}</div>
-                      <div>Launch: ${object.launchDate && dayjs(object.launchDate).format('LL')}</div>
-                    </div>`
+            return `
+                  <div class='rounded-xl border bg-[#161B22] opacity-80 p-2 cursor-pointer'>
+                      <div class='poppins-600-16 text-white capitalize'>${object.name?.replace('-', ' ')}</div>
+                      <div class='poppins-400-10 text-[#768599]'>Launch: ${object.launchDate && dayjs(object.launchDate).format('LL')}</div>
+                  </div>`
           }}
           objectLat="lat"
           objectLng="lng"
@@ -132,13 +138,12 @@ export const CustomGlobe = () => {
           objectFacesSurface={true}
           objectThreeObject={(d) => new THREE.Mesh(satGeometry(d.size), satMaterial(d.color))}
           onObjectClick={(props) => {
-            // console.log(props)
-            const {lat, lng} = props
-            globeEl.current.pointOfView({lat, lng, altitude: 3}, 700)
-            setSelectedSat(props.name)
+            handleSatSelect(props.id)
             handleGlobeRotate(false)
           }}
-          backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+          onObjectHover={() => handleGlobeRotate(false)}
+          // backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+          backgroundColor='rgba(0,0,0,0)'
         />
       </div>);
   };
