@@ -40,16 +40,28 @@ export const CustomGlobe = () => {
         })
     }, []);
 
+    const [selectedSat, setSelectedSat] = useState(null)
+
+    const RADIUS = SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2
+
     const objectsData = useMemo(() => {
       if (!starlinkData) return [];
+      // console.log('hello')
 
       return starlinkData.map(d => {
 
+
           const name = d.spaceTrack.OBJECT_NAME
+          const isSelected = selectedSat && selectedSat === name
+
           const lat = d.latitude
           const lng = d.longitude
           const alt = (d.height_km / EARTH_RADIUS_KM) * 2;
-          return { name, lat, lng, alt };
+          const color = isSelected ? 'dodgerblue' : 'white'
+          const size = isSelected ? RADIUS * 2 : RADIUS 
+          const launchDate = d.spaceTrack.LAUNCH_DATE
+
+          return { name, lat, lng, alt, color, size,launchDate };
       });
     }, [starlinkData, time]);
 
@@ -57,14 +69,15 @@ export const CustomGlobe = () => {
 
     const [globeTexture, setGlobeTexture] = useState(require('../assets/earth-water.png'))
 
+    const satGeometry = (radius = RADIUS) =>  new THREE.OctahedronGeometry( radius, 0);;
+    const satMaterial = (color='white') => new THREE.MeshLambertMaterial({ color, transparent: true, opacity: 0.7 });
+
     const satObject = useMemo(() => {
       if (!globeRadius) return undefined;
 
       // const satGeometry = new THREE.SphereGeometry(SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2, 32, 16);
-      const satGeometry = new THREE.OctahedronGeometry( SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2, 0);;
-      const satMaterial = new THREE.MeshLambertMaterial({ color: 'white', transparent: true, opacity: 0.7 });
       
-      return new THREE.Mesh(satGeometry, satMaterial);
+      return new THREE.Mesh(satGeometry(), satMaterial());
 
     }, [globeRadius]);
 
@@ -88,36 +101,25 @@ export const CustomGlobe = () => {
           objectLabel={function (object) {
             return `<div class='scene-tooltip-container'>
                       <div>${object.name}</div>
-                      <div>North of Ascension Island</div>
+                      <div>${object.launchDate}</div>
                     </div>`
           }}
           objectLat="lat"
           objectLng="lng"
           objectAltitude="alt"
           objectFacesSurface={false}
-          objectThreeObject={satObject}
-          onObjectClick={(props) => {
+          objectThreeObject={(d) => {
+            // console.log(d)
+            return new THREE.Mesh(satGeometry(d.size), satMaterial(d.color))
+          }}
+          onObjectClick={(props,e,cords) => {
             // console.log(props)
+            
             const {lat, lng} = props
             globeEl.current.pointOfView({lat, lng, altitude: 3}, 700)
 
-            console.log(globeEl.current.pointOfView({lat, lng, altitude: 3}, 700))
-            // console.log(globeEl.current.getScreenCoords(lat, lng, 3))
-
-
-            setTimeout(() => {
-
-              // const sceneTooltip = document.querySelector('.scene-tooltip')
-              // const sceneTooltipStatic = sceneTooltip.cloneNode(true)
-              // // sceneTooltipStatic
-  
-              // sceneTooltip.parentElement.appendChild(sceneTooltipStatic)
-  
-              // console.log(sceneTooltipStatic)
-            }, 800)
-            // setGlobeTexture('https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-blue-marble.jpg')
-
-            
+            setSelectedSat(props.name)
+            console.log(props)
 
           }}
           onObjectHover={(props) => {
