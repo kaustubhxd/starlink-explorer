@@ -17,7 +17,7 @@ dayjs.extend(localizedFormat)
     "https://cdn.discordapp.com/attachments/828364653800325120/1109450421858218026/earth-water4.png"
   ]
 
-export const CustomGlobe = ({globeTexture, starlinkData, selectedSat, handleSatSelect}) => {
+export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelect}) => {
     const globeEl = useRef();
 
     const [globeRadius, setGlobeRadius] = useState();
@@ -47,9 +47,9 @@ export const CustomGlobe = ({globeTexture, starlinkData, selectedSat, handleSatS
     const RADIUS = SAT_SIZE * globeRadius / EARTH_RADIUS_KM / 2
 
     const objectsData = useMemo(() => {
-      if (!starlinkData) return [];
+      if (!starList) return [];
 
-      return starlinkData.map(d => {
+      return starList.map(d => {
 
 
           const id = d.id
@@ -65,7 +65,7 @@ export const CustomGlobe = ({globeTexture, starlinkData, selectedSat, handleSatS
 
           return { id, name, lat, lng, alt, color, size,launchDate };
       });
-    }, [starlinkData, time]);
+    }, [starList, time]);
 
     // console.log({objectsData})
 
@@ -92,7 +92,7 @@ export const CustomGlobe = ({globeTexture, starlinkData, selectedSat, handleSatS
 
     useEffect(() => {
       if(selectedSat){
-        const {latitude: lat, longitude: lng} = starlinkData.find((a) => a.id === selectedSat) 
+        const {latitude: lat, longitude: lng} = starList.find((a) => a.id === selectedSat) 
         console.log(selectedSat,lat,lng)
         globeEl.current.pointOfView({lat, lng, altitude: 3}, 700)
       }

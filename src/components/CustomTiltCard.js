@@ -1,5 +1,5 @@
 import { space } from 'postcss/lib/list';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tilt from 'react-parallax-tilt';
 import ReactTable from 'react-table'
 
@@ -10,18 +10,31 @@ const renderDataStrip = (label, value) => (
     </div>
 )
 
-const CustomTiltCard = ({starlinkData: data, selectedSat, handleSatSelect}) => {
+const CustomTiltCard = ({starList, selectedSat, handleSatSelect}) => {
+
+
+
+    useEffect(() => {
+        const element = document.querySelector(`#card-${selectedSat}`)
+        console.log(element, 'egege')
+        if(element) element.scrollIntoView({behavior: 'smooth'}) 
+    },[selectedSat])
+
     return (
-        <div style={{
+        <div 
+        style={{
             display: 'grid',
             gridGap: '20px',
             gridTemplateColumns: 'repeat(auto-fit,180px)',
             gridTemplateRows: 'repeat(auto-fit,220px)',
             width: '100%',
-            height: '100%'
-
-        }}>
-            {data?.slice(0,5).map(({id, latitude,longitude, height_km, velocity_kms, version, spaceTrack, }) => (
+            padding: '20px 0',
+            overflow: 'hidden',
+            overflowY: 'auto',
+            flex: 1,
+        }}
+        >
+            {starList?.map(({id, latitude,longitude, height_km, velocity_kms, version, spaceTrack, }) => (
                 <Tilt 
                     key={id}
                     glareEnable={true} 
@@ -34,6 +47,7 @@ const CustomTiltCard = ({starlinkData: data, selectedSat, handleSatSelect}) => {
                     style={{height: '220px', width: '180px'}}
                 >
                     <div 
+                        id={`card-${id}`}
                         className='h-[220px] w-[180px] rounded-xl border bg-[#161B22] opacity-80 p-4 cursor-pointer'
                         onClick={() => handleSatSelect(id)}
                         style={{
