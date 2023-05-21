@@ -1,4 +1,5 @@
 # don't forget to add 'homepage' property to package.json with the weblink to where this will deploy
+# turn permissions on: Settings > General > Workflow permissions > Read and write permissions
 name: Build and Deploy
 on: [push]
 jobs:
