@@ -8,7 +8,7 @@ import './helpers/fontStyles.css'
 import CustomToggle from './components/CustomToggle';
 import CustomPagination from './components/CustomPagination';
 import CustomFilters from './components/CustomFilters';
-import { SAT_STATUS } from './helpers/constants';
+import { SAT_STATUS, SAT_TYPE } from './helpers/constants';
 
 function App() {
 
@@ -18,13 +18,14 @@ function App() {
   const [dataLoading, setDataLoading] = useState(false)
 
   const [dataFilters, setDataFilters] = useState({
-    status: SAT_STATUS.OPERATIONAL,
-    search: null
+    status: SAT_STATUS.BOTH,
+    search: null,
+    type: SAT_TYPE.ALL
   })
 
   const getDecayValue = (status) => {
     const {DECAYED, OPERATIONAL, BOTH} = SAT_STATUS
-    switch(status){
+    switch(status) {
       case DECAYED:
         return { "$eq": null }
       case OPERATIONAL:
@@ -35,15 +36,29 @@ function App() {
     }
   }
 
+  const getTypeValue = (type) => {
+    const { ALL, PROTOTYPE, V09, V10, V15 } = SAT_TYPE
+    switch(type) {
+      case undefined:
+      case null:
+      case ALL:
+        return { "$ne": null }
+      default:
+        return { "$eq": type }
+    }
+  }
+
   const postQuery = ({ 
       page = ( starlinkData?.page || 1 ), 
       limit = ( starlinkData?.limit || 10 ), 
-      status = ( dataFilters?.status || 0) 
+      status = ( dataFilters?.status || 0),
+      type = ( dataFilters?.type || undefined )
     }) => {
     setDataLoading(true)
     client.post('https://api.spacexdata.com/v4/starlink/query', {
       "query": {
-          "latitude": getDecayValue(status)
+          "latitude": getDecayValue(status),
+          "version":  getTypeValue(type)
       },
       "options": {
           "limit": limit,
@@ -51,7 +66,10 @@ function App() {
           "pagination": true,
           "populate": [
               "launch"
-          ]
+          ],
+          "sort":{
+            "spaceTrack.LAUNCH_DATE":"desc"
+         }
       }
     }).then(res => {
         console.log(res.data)
@@ -73,8 +91,8 @@ function App() {
     setSelectedCard(id)
   }
 
-  const handleFilters = ({ page,limit, status }) => {
-    postQuery({ page,limit, status })
+  const handleFilters = ({ page,limit, status,type }) => {
+    postQuery({ page,limit, status, type })
   }
 
   const getOperationalSats  = (list) => {
