@@ -77,6 +77,10 @@ function App() {
     postQuery({ page,limit, status })
   }
 
+  const getOperationalSats  = (list) => {
+    return list?.filter(sat => !!sat.latitude) || []
+  }
+
   return (
     <MyContext.Provider value={{starlinkData, setStarlinkData}}>
       <div className="App">
@@ -95,7 +99,7 @@ function App() {
                 <div>
                   <CustomGlobe 
                     globeTexture={globeTexture}
-                    starList={starlinkData.docs}
+                    starList={getOperationalSats(starlinkData.docs)}
                     selectedSat={selectedSat}
                     handleSatSelect={handleSatSelect}
                   />

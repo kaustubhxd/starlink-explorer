@@ -50,8 +50,6 @@ export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelec
       if (!starList) return [];
 
       return starList.map(d => {
-
-
           const id = d.id
           const name = d.spaceTrack.OBJECT_NAME
           const isSelected = selectedSat === id
@@ -92,7 +90,9 @@ export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelec
 
     useEffect(() => {
       if(selectedSat){
-        const {latitude: lat, longitude: lng} = starList.find((a) => a.id === selectedSat) 
+        const satellite = starList?.find((a) => a.id === selectedSat) 
+        if(!satellite) return
+        const {latitude: lat, longitude: lng}  = satellite
         console.log(selectedSat,lat,lng)
         globeEl.current.pointOfView({lat, lng, altitude: 3}, 700)
       }
@@ -129,7 +129,7 @@ export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelec
             return `
                   <div class='rounded-xl border bg-[#161B22] opacity-80 p-2 cursor-pointer'>
                       <div class='poppins-600-16 text-white capitalize'>${object.name?.replace('-', ' ')}</div>
-                      <div class='poppins-400-10 text-[#768599]'>Launch: ${object.launchDate && dayjs(object.launchDate).format('LL')}</div>
+                      <div class='poppins-400-10 text-[#768599]'>Launch: ${object.launchDate && dayjs(object.launchDate).format('MMM D, YYYY')}</div>
                   </div>`
           }}
           objectLat="lat"

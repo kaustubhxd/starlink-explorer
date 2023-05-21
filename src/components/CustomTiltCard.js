@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 
@@ -64,8 +65,8 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
                             </div> }   
                             <div className='mt-1'>
                                 <div className='poppins-600-16 text-white capitalize'>{spaceTrack?.OBJECT_NAME?.replace('-', ' ')}</div>
-                                <div className='poppins-400-10 text-[#768599]'>Launch: {spaceTrack?.LAUNCH_DATE || '-'}</div>
-                                {spaceTrack?.DECAYED ? <div className='poppins-400-10 text-[red]'>Decay: {spaceTrack?.DECAY_DATE}</div> : ''}
+                                <div className='poppins-400-10 text-[#768599]'>Launch:  {spaceTrack?.LAUNCH_DATE ? dayjs(spaceTrack?.LAUNCH_DATE).format('LL') : '-'}</div>
+                                {spaceTrack?.DECAYED ? <div className='poppins-400-10 text-[red]'>Decay: {spaceTrack?.DECAY_DATE ? dayjs(spaceTrack?.DECAY_DATE).format('LL') : '-'}</div> : ''}
                                 {!spaceTrack?.DECAYED && <div className='poppins-400-10 text-[#56ED5C]'>Operational</div>}
                             </div>
                             <div className='mt-4 flex flex-col gap-y-1'>
