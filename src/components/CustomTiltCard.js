@@ -11,9 +11,6 @@ const renderDataStrip = (label, value) => (
 
 const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
 
-
-    console.log('loading: ', loading)
-
     useEffect(() => {
         const element = document.querySelector(`#card-${selectedSat}`)
         if(element) element.scrollIntoView({behavior: 'smooth'}) 
@@ -62,18 +59,20 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
                                 transition: "all 0.2s ease-in-out"
                             }}
                         >
-                            {version && <div className='w-fit px-2 h-4 bg-[#56ED5C] rounded-lg text-xs text-center text-[#161B22]'>
+                            {version && <div className='w-fit px-2 h-4 bg-[dodgerblue] rounded-lg text-xs text-center text-[#161B22]'>
                                 {version}
                             </div> }   
                             <div className='mt-1'>
                                 <div className='poppins-600-16 text-white capitalize'>{spaceTrack?.OBJECT_NAME?.replace('-', ' ')}</div>
-                                <div className='poppins-400-10 text-[#768599]'>Launch: Nov 11, 2019</div>
+                                <div className='poppins-400-10 text-[#768599]'>Launch: {spaceTrack?.LAUNCH_DATE || '-'}</div>
+                                {spaceTrack?.DECAYED ? <div className='poppins-400-10 text-[red]'>Decay: {spaceTrack?.DECAY_DATE}</div> : ''}
+                                {!spaceTrack?.DECAYED && <div className='poppins-400-10 text-[#56ED5C]'>Operational</div>}
                             </div>
                             <div className='mt-4 flex flex-col gap-y-1'>
                                 {renderDataStrip('Latitude', latitude?.toFixed(4))}
                                 {renderDataStrip('Longitude', longitude?.toFixed(4))}
                                 {renderDataStrip('Height', height_km?.toFixed(4))}
-                                {renderDataStrip('Velocity', `${velocity_kms?.toFixed(4)} km/s`)}
+                                {renderDataStrip('Velocity', velocity_kms && `${velocity_kms?.toFixed(4)} km/s`)}
                             </div>
                         </div>
                     </Tilt>

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './index.css';
 import { CustomGlobe } from './components/CustomGlobe';
 import { useEffect, useState } from 'react';
@@ -6,9 +5,10 @@ import CustomTiltCard from './components/CustomTiltCard';
 import { MyContext } from './store/Context';
 import { client } from './helpers/axiosClient';
 import './helpers/fontStyles.css'
-import { ConfigProvider, Pagination,Select, Spin } from 'antd';
 import CustomToggle from './components/CustomToggle';
-import CustomSpinner from './components/CustomSpinner';
+import CustomPagination from './components/CustomPagination';
+import CustomFilters from './components/CustomFilters';
+import { SAT_STATUS } from './helpers/constants';
 
 function App() {
 
@@ -17,14 +17,33 @@ function App() {
   const [starlinkData, setStarlinkData] = useState([])
   const [dataLoading, setDataLoading] = useState(false)
 
+  const [dataFilters, setDataFilters] = useState({
+    status: SAT_STATUS.OPERATIONAL,
+    search: null
+  })
 
-  const postQuery = (page = 1, limit = 10) => {
+  const getDecayValue = (status) => {
+    const {DECAYED, OPERATIONAL, BOTH} = SAT_STATUS
+    switch(status){
+      case DECAYED:
+        return { "$eq": null }
+      case OPERATIONAL:
+        return { "$ne": null }
+      case BOTH:
+      default:
+        return undefined
+    }
+  }
+
+  const postQuery = ({ 
+      page = ( starlinkData?.page || 1 ), 
+      limit = ( starlinkData?.limit || 10 ), 
+      status = ( dataFilters?.status || 0) 
+    }) => {
     setDataLoading(true)
     client.post('https://api.spacexdata.com/v4/starlink/query', {
       "query": {
-          "latitude": {
-              "$ne": null
-          }
+          "latitude": getDecayValue(status)
       },
       "options": {
           "limit": limit,
@@ -40,12 +59,13 @@ function App() {
         console.log(data)        
 
         setStarlinkData(data)
-        setDataLoading(false)
+    }).finally(() => {
+      setDataLoading(false)
     })
   }
 
   useEffect(() => {
-    postQuery()
+    postQuery({})
   }, [])
 
   const [selectedSat, setSelectedCard] = useState(null)
@@ -53,10 +73,9 @@ function App() {
     setSelectedCard(id)
   }
 
-  const handlePaginate = (page,limit) => {
-    postQuery(page,limit)
+  const handleFilters = ({ page,limit, status }) => {
+    postQuery({ page,limit, status })
   }
-
 
   return (
     <MyContext.Provider value={{starlinkData, setStarlinkData}}>
@@ -68,7 +87,7 @@ function App() {
                     value={globeTexture} 
                     onSelect={setGlobeTexture}
                     options={[
-                        {id: 0, label: 'Simple'},
+                        {id: 3, label: 'Simple'},
                         {id: 1, label: 'Detailed'}
                     ]}
                   />
@@ -83,71 +102,40 @@ function App() {
                 </div>
               </div>
               <div className='flex-1 flex flex-col'>
-                <div className='poppins-600-16 text-white uppercase my-4'>Operational Starlink Satellites</div>
+                <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
+                  <div>Starlink Satellites</div>
+                  <CustomFilters 
+                    className={'mt-2'}
+                    loading={dataLoading}
+                    data={dataFilters}
+                    onChange={(type,value) => {
+                      console.log(type,value)
+                      handleFilters({ [type] : value })
+
+                      setDataFilters({
+                        ...dataFilters,
+                        [type]: value
+                      })
+                    }}
+                  />
+                </div>
                 <CustomTiltCard 
                   loading={dataLoading}
                   starList={starlinkData.docs}
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}
                 />
-                <div className='my-2 flex'>
-                  <CustomSpinner spinning={dataLoading}>
-                    <ConfigProvider
-                      theme={{
-                        token: {
-                          colorPrimary: '#56ED5C',
-                          colorBgContainer: 'black',
-                          colorBgTextActive: '#56ED5C',
-                          colorText: 'white',
-                          colorBorder: 'transparent',
-                          colorBgElevated: 'black',
-                          colorTextDisabled: 'gray',
-                        },
-                      }}
-                    >
-                        <Pagination 
-                          size="default" 
-                          showSizeChanger={false}
-                          total={starlinkData?.totalDocs || 0} 
-                          current={starlinkData?.page || 0}
-                          showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                          pageSize={starlinkData?.limit || 0}
-                          onChange={(page, limit) => {
-                            console.log(page, limit)
-                            handlePaginate(page,limit)
-                          }}
-                        />
-                    </ConfigProvider>
-                  </CustomSpinner>
-
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorBgContainer: 'black',
-                        colorText: 'white',
-                        // colorPrimary: '#56ED5C',
-                        colorBgElevated:'black',
-                        colorPrimaryBg: 'rgba(94, 237, 86, 0.5)',
-                        colorTextBase: 'white',
-                      }
-                    }}
-                  >
-                    <Select
-                      disabled={dataLoading}
-                      value={starlinkData?.limit}
-                      onChange={(limit) => {
-                        handlePaginate(starlinkData.page,limit)
-                      }}
-                      options={[
-                        { value: 10, label: '10 / page' },
-                        { value: 20, label: '20 / page' },
-                        { value: 50, label: '50 / page' },
-                      ]}
-                    />
-                  </ConfigProvider>
-                
-                </div>
-
+                <CustomPagination 
+                  loading={dataLoading}
+                  starlinkData={starlinkData}
+                  onPageChange={(page, limit) => {
+                      console.log(page, limit)
+                      handleFilters({ page,limit })
+                  }} 
+                  onLimitChange={(limit) => {
+                    handleFilters({limit})
+                  }}
+                />
               </div>
             </div>
 
