@@ -7,6 +7,7 @@ import { MyContext } from './store/Context';
 import { client } from './helpers/axiosClient';
 import './helpers/fontStyles.css'
 import { ConfigProvider, Pagination,Select } from 'antd';
+import CustomToggle from './components/CustomToggle';
 
 function App() {
 
@@ -59,10 +60,14 @@ function App() {
             <div className='w-screen h-screen flex bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
               <div className='flex flex-col bg-transparent'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
-                  <div className='flex cursor-pointer'>
-                    <div className='border-white border rounded-l-3xl p-3 w-24 text-center text-white cursor-pointer' onClick={() => setGlobeTexture(0)}>Simple</div>
-                    <div className='border-white border text-white rounded-r-3xl p-3 w-24 text-center' onClick={() => setGlobeTexture(1)}>Detailed</div>
-                  </div>
+                  <CustomToggle 
+                    value={globeTexture} 
+                    onSelect={setGlobeTexture}
+                    options={[
+                        {id: 0, label: 'Simple'},
+                        {id: 1, label: 'Detailed'}
+                    ]}
+                  />
                 </div>
                 <div>
                   <CustomGlobe 
@@ -83,16 +88,6 @@ function App() {
                 <div className='my-2 flex'>
                   <ConfigProvider
                     theme={{
-                      // token: {
-                      //   colorPrimary: '#56ED5C',
-                      //   colorBgContainer: 'transparent',
-                      //   colorBgTextActive: '#56ED5C',
-                      //   colorText: 'white',
-                      //   colorBorder: 'transparent',
-                      //   colorBgElevated: 'black',
-                      //   colorTextDisabled: 'gray',
-                      //   colorHighlight: 'red'
-                      // },
                       token: {
                         colorPrimary: '#56ED5C',
                         colorBgContainer: 'black',

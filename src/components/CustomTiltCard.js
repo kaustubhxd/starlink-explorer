@@ -16,7 +16,6 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect}) => {
 
     useEffect(() => {
         const element = document.querySelector(`#card-${selectedSat}`)
-        console.log(element, 'egege')
         if(element) element.scrollIntoView({behavior: 'smooth'}) 
     },[selectedSat])
 
