@@ -6,17 +6,20 @@ import CustomTiltCard from './components/CustomTiltCard';
 import { MyContext } from './store/Context';
 import { client } from './helpers/axiosClient';
 import './helpers/fontStyles.css'
-import { ConfigProvider, Pagination,Select } from 'antd';
+import { ConfigProvider, Pagination,Select, Spin } from 'antd';
 import CustomToggle from './components/CustomToggle';
+import CustomSpinner from './components/CustomSpinner';
 
 function App() {
 
   const [globeTexture, setGlobeTexture] = useState(3)
 
   const [starlinkData, setStarlinkData] = useState([])
+  const [dataLoading, setDataLoading] = useState(false)
 
 
   const postQuery = (page = 1, limit = 10) => {
+    setDataLoading(true)
     client.post('https://api.spacexdata.com/v4/starlink/query', {
       "query": {
           "latitude": {
@@ -37,6 +40,7 @@ function App() {
         console.log(data)        
 
         setStarlinkData(data)
+        setDataLoading(false)
     })
   }
 
@@ -81,37 +85,41 @@ function App() {
               <div className='flex-1 flex flex-col'>
                 <div className='poppins-600-16 text-white uppercase my-4'>Operational Starlink Satellites</div>
                 <CustomTiltCard 
+                  loading={dataLoading}
                   starList={starlinkData.docs}
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}
                 />
                 <div className='my-2 flex'>
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorPrimary: '#56ED5C',
-                        colorBgContainer: 'black',
-                        colorBgTextActive: '#56ED5C',
-                        colorText: 'white',
-                        colorBorder: 'transparent',
-                        colorBgElevated: 'black',
-                        colorTextDisabled: 'gray',
-                      },
-                    }}
-                  >
-                      <Pagination 
-                        size="default" 
-                        showSizeChanger={false}
-                        total={starlinkData?.totalDocs || 0} 
-                        current={starlinkData?.page || 0}
-                        showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                        pageSize={starlinkData?.limit || 0}
-                        onChange={(page, limit) => {
-                          console.log(page, limit)
-                          handlePaginate(page,limit)
-                        }}
-                      />
-                  </ConfigProvider>
+                  <CustomSpinner spinning={dataLoading}>
+                    <ConfigProvider
+                      theme={{
+                        token: {
+                          colorPrimary: '#56ED5C',
+                          colorBgContainer: 'black',
+                          colorBgTextActive: '#56ED5C',
+                          colorText: 'white',
+                          colorBorder: 'transparent',
+                          colorBgElevated: 'black',
+                          colorTextDisabled: 'gray',
+                        },
+                      }}
+                    >
+                        <Pagination 
+                          size="default" 
+                          showSizeChanger={false}
+                          total={starlinkData?.totalDocs || 0} 
+                          current={starlinkData?.page || 0}
+                          showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                          pageSize={starlinkData?.limit || 0}
+                          onChange={(page, limit) => {
+                            console.log(page, limit)
+                            handlePaginate(page,limit)
+                          }}
+                        />
+                    </ConfigProvider>
+                  </CustomSpinner>
+
                   <ConfigProvider
                     theme={{
                       token: {
@@ -125,6 +133,7 @@ function App() {
                     }}
                   >
                     <Select
+                      disabled={dataLoading}
                       value={starlinkData?.limit}
                       onChange={(limit) => {
                         handlePaginate(starlinkData.page,limit)
