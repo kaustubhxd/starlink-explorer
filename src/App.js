@@ -110,12 +110,14 @@ function App() {
                     data={dataFilters}
                     onChange={(type,value) => {
                       console.log(type,value)
-                      handleFilters({ [type] : value })
-
                       setDataFilters({
                         ...dataFilters,
                         [type]: value
                       })
+                      if(type === 'search') return
+                      handleFilters({ [type] : value })
+
+                      
                     }}
                   />
                 </div>

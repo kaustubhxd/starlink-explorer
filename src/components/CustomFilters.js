@@ -21,21 +21,21 @@ const CustomFilters = ({className, style, loading, data, onChange}) => {
                         }
                     }}
                 >
-                    <Input
-                        placeholder="Search by name"
-                        value={data['search']}
-                        disabled={loading}
-                        onChange={(e) => onChange('search', e.target.value)}
-                        allowClear
-                        style={{
-                            width: 200,
-                        }}
-                        suffix={
-                            <Tooltip title="Extra information">
-                                <SearchOutlined style={{ color: 'white' }} />
-                            </Tooltip>
-                        }
-                    />
+                <Input
+                    placeholder="Search by name"
+                    value={data['search']}
+                    disabled={loading}
+                    onChange={(e) => onChange('search', e.target.value)}
+                    allowClear
+                    style={{
+                        width: 200,
+                    }}
+                    suffix={
+                        <Tooltip title="Extra information">
+                            <SearchOutlined style={{ color: 'white' }} />
+                        </Tooltip>
+                    }
+                />
                 </ConfigProvider>
                 <div>
                     <CustomSelect 
