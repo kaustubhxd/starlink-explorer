@@ -1,14 +1,11 @@
-import { ConfigProvider, Spin } from 'antd';
-import { space } from 'postcss/lib/list';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
-import ReactTable from 'react-table'
-import CustomSpinner from './CustomSpinner';
+
 
 const renderDataStrip = (label, value) => (
     <div className='flex gap-x-2 '>
         <div className='poppins-400-11 text-[#C6C6C6] w-[55px] min-w-[55px]'>{label}</div>
-        <div className='poppins-500-11 text-white'>{value}</div>
+        <div className='poppins-500-11 text-white'>{value || '-'}</div>
     </div>
 )
 
@@ -23,7 +20,6 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
     },[selectedSat])
 
     return (
-
             <div 
                 style={{
                     display: 'grid',
@@ -66,9 +62,9 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
                                 transition: "all 0.2s ease-in-out"
                             }}
                         >
-                            <div className='w-9 h-4 bg-[#56ED5C] rounded-lg text-xs text-center text-[#161B22]'>
+                            {version && <div className='w-fit px-2 h-4 bg-[#56ED5C] rounded-lg text-xs text-center text-[#161B22]'>
                                 {version}
-                            </div>    
+                            </div> }   
                             <div className='mt-1'>
                                 <div className='poppins-600-16 text-white capitalize'>{spaceTrack?.OBJECT_NAME?.replace('-', ' ')}</div>
                                 <div className='poppins-400-10 text-[#768599]'>Launch: Nov 11, 2019</div>
