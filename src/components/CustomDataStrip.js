@@ -7,7 +7,7 @@ const CustomDataStrip = ({label, value, fontSize = '11px', fontWeight = 400, min
           className='text-[#C6C6C6] '
           style={{fontSize, fontWeight, minWidth }}
         >{label}</div>
-        <div className='poppins-500-11 text-white'
+        <div className='poppins-500-11 text-white lg:w-max'
             style={{fontSize, fontWeight }}
         >{value || '-'}</div>
     </div>

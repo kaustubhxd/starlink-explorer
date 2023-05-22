@@ -1,8 +1,8 @@
 import React from 'react'
 import CustomTilt from './CustomTilt'
 
-const ToggleItem = ({value, id, onSelect, children, style}) => (
-    <CustomTilt borderRadius={24} opacity={0.8}>
+const ToggleItem = ({value, id, onSelect, children, style }) => (
+    <CustomTilt borderRadius={24} opacity={0.8} glareEnable={!!window.innerWidth >= 1024}>
         <div className='border-white border p-3 w-24 text-center text-white cursor-pointer' 
             style={{
                 backgroundColor: value === id ? 'rgba(96, 237, 86, 0.4)' : undefined,
@@ -19,7 +19,7 @@ const ToggleItem = ({value, id, onSelect, children, style}) => (
 
 const CustomToggle = ({value, onSelect, options}) => {
   return (
-    <div className='flex cursor-pointer overflow-hidden'>
+    <div className='flex cursor-pointer lg:rounded-3xl overflow-hidden'>
         <ToggleItem 
             value={value} 
             id={options[0].id} 
