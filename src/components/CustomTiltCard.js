@@ -1,17 +1,14 @@
 import dayjs from 'dayjs';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 import CustomDataStrip from './CustomDataStrip';
+import { MyContext } from '../store/Context';
 
 
-const renderDataStrip = (label, value) => (
-    <div className='flex gap-x-2 '>
-        <div className='poppins-400-11 text-[#C6C6C6] w-[55px] min-w-[55px]'>{label}</div>
-        <div className='poppins-500-11 text-white'>{value || '-'}</div>
-    </div>
-)
+const CustomTiltCard = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
 
-const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading, handleModal}) => {
+    const starList = useContext(MyContext)?.starlinkData?.docs;
+
 
     useEffect(() => {
         const element = document.querySelector(`#card-${selectedSat}`)

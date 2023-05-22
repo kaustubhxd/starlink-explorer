@@ -133,10 +133,6 @@ function App() {
     postQuery({ page,limit, status, type, search, dateRange }, actionType)
   }
 
-  const getOperationalSats  = (list) => {
-    return list?.filter(sat => !!sat.latitude) || []
-  }
-
   const handleModal = (id) => {
     setInfoModal({
       id, open: !!id
@@ -161,7 +157,6 @@ function App() {
                 <div>
                   <CustomGlobe 
                     globeTexture={globeTexture}
-                    starList={getOperationalSats(starlinkData.docs)}
                     selectedSat={selectedSat}
                     handleSatSelect={handleSatSelect}
                   />
@@ -205,14 +200,12 @@ function App() {
                 </div>
                 <CustomTiltCard 
                   loading={dataLoading}
-                  starList={starlinkData.docs}
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}
                   handleModal={handleModal}
                 />
                 <CustomPagination 
                   loading={dataLoading}
-                  starlinkData={starlinkData}
                   onPageChange={(page, limit,a,b,c,d) => {
                       console.log(page, limit,a,b,c,d)
                       handleFilters({ page }, 'page')

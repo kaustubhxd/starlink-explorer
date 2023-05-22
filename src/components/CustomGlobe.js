@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useContext } from 'react';
 import * as THREE from 'three'
 import Globe from 'react-globe.gl';
 import dayjs from 'dayjs';
 import {client} from '../helpers/axiosClient'
+import { MyContext } from '../store/Context';
 var localizedFormat = require('dayjs/plugin/localizedFormat')
 dayjs.extend(localizedFormat)
 
@@ -17,11 +18,17 @@ dayjs.extend(localizedFormat)
     "https://cdn.discordapp.com/attachments/828364653800325120/1109450421858218026/earth-water4.png"
   ]
 
-export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelect}) => {
+export const CustomGlobe = ({globeTexture, selectedSat, handleSatSelect}) => {
     const globeEl = useRef();
 
     const [globeRadius, setGlobeRadius] = useState();
     const [time, setTime] = useState(new Date());
+
+    const getOperationalSats  = (list) => {
+      return list?.filter(sat => !!sat.latitude) || []
+    }
+
+    const starList = getOperationalSats(useContext(MyContext)?.starlinkData?.docs)
 
     useEffect(() => {
       // time ticker
