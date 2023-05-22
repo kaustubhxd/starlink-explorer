@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/starlink-explorer/static/css/main.c3614c94.css",
-    "main.js": "/starlink-explorer/static/js/main.cfc812d1.js",
+    "main.css": "/starlink-explorer/static/css/main.a4ed43c3.css",
+    "main.js": "/starlink-explorer/static/js/main.69369aa1.js",
     "static/js/787.c30a6e17.chunk.js": "/starlink-explorer/static/js/787.c30a6e17.chunk.js",
     "static/media/earth-water.png": "/starlink-explorer/static/media/earth-water.be5f7f27abe2a8ab25a6.png",
     "index.html": "/starlink-explorer/index.html",
-    "main.c3614c94.css.map": "/starlink-explorer/static/css/main.c3614c94.css.map",
-    "main.cfc812d1.js.map": "/starlink-explorer/static/js/main.cfc812d1.js.map",
+    "main.a4ed43c3.css.map": "/starlink-explorer/static/css/main.a4ed43c3.css.map",
+    "main.69369aa1.js.map": "/starlink-explorer/static/js/main.69369aa1.js.map",
     "787.c30a6e17.chunk.js.map": "/starlink-explorer/static/js/787.c30a6e17.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c3614c94.css",
-    "static/js/main.cfc812d1.js"
+    "static/css/main.a4ed43c3.css",
+    "static/js/main.69369aa1.js"
   ]
 }
