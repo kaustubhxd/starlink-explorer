@@ -45,3 +45,6 @@ body {
  background: rgba(91, 237, 86, 0.6);
 }
 
+.ant-modal-content{
+    background-color: transparent !important;
+}

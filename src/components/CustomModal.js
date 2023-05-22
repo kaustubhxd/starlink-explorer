@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Tilt from 'react-parallax-tilt';
 import CustomDataStrip from '../components/CustomDataStrip'
 import { client } from '../helpers/axiosClient';
-import { CloseCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleFilled } from '@ant-design/icons';
 
 const CustomModal = ({ open, id, closeModal }) => {
 
@@ -29,7 +29,7 @@ const CustomModal = ({ open, id, closeModal }) => {
   return (
     <div 
         id='info-modal-bg'
-        className='absolute top-0 left-0 h-screen w-screen bg-[rgba(0,0,0,0.2)] flex items-center justify-center'
+        className='flex items-center justify-center '
         onClick={(e) => {
             e.stopPropagation()
             if(e.target.id === 'info-modal-bg') closeModal()
@@ -45,7 +45,7 @@ const CustomModal = ({ open, id, closeModal }) => {
             glareBorderRadius='8px'
         >
         <div 
-            className='rounded-xl border bg-[#161B22] opacity-90 p-4'
+            className='rounded-xl border bg-[#161B22] opacity-90 p-6 overflow-hidden overflow-y-auto'
             style={{
                 borderColor: '#56ED5C',
                 borderWidth: '1px',
@@ -64,10 +64,9 @@ const CustomModal = ({ open, id, closeModal }) => {
                     }}
                     >
                         <CloseCircleFilled 
-                            width={100}
-                            height={100}
                             style={{
-                                color: 'white'
+                                color: 'white',
+                                fontSize: '150%'
                             }} 
                         />
                     </div>
@@ -77,7 +76,7 @@ const CustomModal = ({ open, id, closeModal }) => {
                 <div className='poppins-600-30 text-white capitalize'>{data?.spaceTrack?.OBJECT_NAME?.replace('-', ' ')}</div>
                 {!data?.spaceTrack?.DECAYED && <div className='poppins-400-16 text-[#56ED5C]'>Operational</div>}
             </div>
-            <div className='flex mt-4 gap-10'> 
+            <div className='flex mt-4 lg:gap-10 gap-8 lg:flex-row flex-col'> 
                 <div>
                     <div className='flex flex-col gap-y-1'>
                         <div className='poppins-500-16 text-white underline'>Major Events</div>
@@ -86,7 +85,6 @@ const CustomModal = ({ open, id, closeModal }) => {
                         <CustomDataStrip fontSize={'14px'} minWidth='90px' label='Epoch' value={data?.spaceTrack?.EPOCH ? dayjs(data?.spaceTrack?.LAUNCH_DATE).format('LL') : '-'} />
                         <CustomDataStrip fontSize={'14px'} minWidth='90px' label='Decay' value={data?.spaceTrack?.DECAY_DATE ? dayjs(data?.spaceTrack?.DECAY_DATE).format('LL') : 'N/A'} />                                
                     </div>
-
                     <div className='mt-7 flex flex-col gap-y-1'>
                         <div className='poppins-500-16 text-white underline'>Geolocation Information</div>
                         <CustomDataStrip fontSize={'14px'} minWidth='90px' label='Latitude' value={data?.latitude?.toFixed(4)} />
@@ -96,18 +94,18 @@ const CustomModal = ({ open, id, closeModal }) => {
                     </div>
                 </div>
                 <div className='text-white'>
-                <div className='flex flex-col gap-y-1'>
-                    <div className='poppins-500-16 text-white underline'>Technical Information</div>
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_NAME' value={data?.spaceTrack?.['OBJECT_NAME']} />
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_ID' value={data?.spaceTrack?.['OBJECT_ID']} />
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_TYPE' vvalue={data?.spaceTrack?.['OBJECT_TYPE']} />
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='PERIAPSIS' value={data?.spaceTrack?.['PERIAPSIS']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='SEMIMAJOR_AXIS' value={data?.spaceTrack?.['SEMIMAJOR_AXIS']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='SITE' value={data?.spaceTrack?.['SITE']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='INCLINATION' value={data?.spaceTrack?.['INCLINATION']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='CLASSIFICATION_TYPE' value={data?.spaceTrack?.['CLASSIFICATION_TYPE']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='COUNTRY_CODE' value={data?.spaceTrack?.['COUNTRY_CODE']} />                                
-                        <CustomDataStrip fontSize={'14px'} minWidth='180px' label='CENTER_NAME' value={data?.spaceTrack?.['CENTER_NAME']} />                                
+                    <div className='flex flex-col gap-y-1'>
+                        <div className='poppins-500-16 text-white underline'>Technical Information</div>
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_NAME' value={data?.spaceTrack?.['OBJECT_NAME']} />
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_ID' value={data?.spaceTrack?.['OBJECT_ID']} />
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='OBJECT_TYPE' vvalue={data?.spaceTrack?.['OBJECT_TYPE']} />
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='PERIAPSIS' value={data?.spaceTrack?.['PERIAPSIS']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='SEMIMAJOR_AXIS' value={data?.spaceTrack?.['SEMIMAJOR_AXIS']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='SITE' value={data?.spaceTrack?.['SITE']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='INCLINATION' value={data?.spaceTrack?.['INCLINATION']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='CLASSIFICATION_TYPE' value={data?.spaceTrack?.['CLASSIFICATION_TYPE']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='COUNTRY_CODE' value={data?.spaceTrack?.['COUNTRY_CODE']} />                                
+                            <CustomDataStrip fontSize={'14px'} minWidth='180px' label='CENTER_NAME' value={data?.spaceTrack?.['CENTER_NAME']} />                                
                     </div>
                 </div>
             </div>
