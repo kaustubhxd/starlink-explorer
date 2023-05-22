@@ -1,10 +1,10 @@
 import React from 'react'
 import Tilt from 'react-parallax-tilt';
 
-const CustomTilt = ({borderRadius, style, children, opacity=0.2}) => {
+const CustomTilt = ({borderRadius, style, children, opacity=0.2, glareEnable=true}) => {
   return (
     <Tilt
-        glareEnable={true} 
+        glareEnable={glareEnable} 
         glareMaxOpacity={opacity} 
         glareColor="lightgreen" 
         glarePosition="all"
