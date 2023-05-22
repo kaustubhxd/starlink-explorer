@@ -27,7 +27,7 @@ const CustomFilters = ({className, style, loading, data, onChange, onSearch}) =>
 
     return (
         <div className={className} style={style}>
-            <div className='flex gap-4'>
+            <div className='flex gap-4 flex-wrap'>
                 {/* <ConfigProvider
                     theme={{
                         token: {
@@ -92,37 +92,37 @@ const CustomFilters = ({className, style, loading, data, onChange, onSearch}) =>
                 </div>
             </div>
             <div className='mt-2'>
-            <ConfigProvider
-                    theme={{
-                        token: {
-                            colorPrimary: '#56ED5C',
-                            colorBgContainer: 'transparent',
-                            colorTextPlaceholder: 'gray',
-                            colorPrimaryActive: 'red',
-                            // colorBgBase: 'rgba(22, 27, 34,0.8)',
-                            colorText: 'white',
-                            colorBgElevated: 'rgba(22, 27, 34,0.95)',
-                            // colorBorder:'red',
-                            colorIcon: 'white',
-                            colorTextDisabled: 'gray',
-                            controlItemBgActive: 'black',
-                            controlItemBgHover: '#56ED5C',
-                            colorSplit: '#56ED5C',
-                            colorTextLightSolid: 'black',
-                            controlOutline: 'transparent',      
-                        }
-                    }}
-            >
-                <RangePicker 
-                    allowEmpty={[true,true]}
-                    onChange={(a,b,c) => {
-                        console.log('ehehe',a,b,c)
-                        const iso = b.map((date) => date ? dayjs(date).toISOString() : undefined)
-                        console.log('isoooo', iso)
-                        onChange('dateRange', { startDate: iso[0], endDate: iso[1] })
-                    }}
-                />
-            </ConfigProvider>
+                <ConfigProvider
+                        theme={{
+                            token: {
+                                colorPrimary: '#56ED5C',
+                                colorBgContainer: 'transparent',
+                                colorTextPlaceholder: 'gray',
+                                colorPrimaryActive: 'red',
+                                // colorBgBase: 'rgba(22, 27, 34,0.8)',
+                                colorText: 'white',
+                                colorBgElevated: 'rgba(22, 27, 34,0.95)',
+                                // colorBorder:'red',
+                                colorIcon: 'white',
+                                colorTextDisabled: 'gray',
+                                controlItemBgActive: 'black',
+                                controlItemBgHover: '#56ED5C',
+                                colorSplit: '#56ED5C',
+                                colorTextLightSolid: 'black',
+                                controlOutline: 'transparent',      
+                            }
+                        }}
+                >
+                    <RangePicker 
+                        allowEmpty={[true,true]}
+                        onChange={(a,b,c) => {
+                            console.log('ehehe',a,b,c)
+                            const iso = b.map((date) => date ? dayjs(date).toISOString() : undefined)
+                            console.log('isoooo', iso)
+                            onChange('dateRange', { startDate: iso[0], endDate: iso[1] })
+                        }}
+                    />
+                </ConfigProvider>
             </div>
         </div>
     )

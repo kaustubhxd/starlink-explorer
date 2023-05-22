@@ -1,7 +1,7 @@
 import { ConfigProvider, Select } from 'antd'
 import React, { useState } from 'react'
 
-const CustomSelect = ({disabled, placeholder, value, onChange, options, style, prefix} ) => {
+const CustomSelect = ({disabled, placeholder, value, onChange, options, style, prefix, className} ) => {
 
     const [open, setOpen] = useState(false)
 
@@ -27,6 +27,7 @@ const CustomSelect = ({disabled, placeholder, value, onChange, options, style, p
                 onChange={onChange}
                 options={options}
                 style={style}
+                className={className}
                 // bordered={false}
             />
         {/* </div> */}

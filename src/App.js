@@ -143,7 +143,7 @@ function App() {
 
   return (
     <MyContext.Provider value={{starlinkData, setStarlinkData}}>
-      <div className="App relative">
+      <div className="App relative lg:overflow-hidden">
             <div className='w-screen h-screen flex flex-col lg:flex-row bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
               <div className='flex flex-col bg-transparent'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
@@ -165,11 +165,11 @@ function App() {
                   />
                 </div>
               </div>
-              <div className='flex-1 flex flex-col'>
+              <div className='flex-1 flex flex-col lg:h-[unset] h-screen'>
                 <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
-                  <div>Starlink Satellites</div>
+                  {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters 
-                    className={'mt-2'}
+                    className={'mt-5 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
                     loading={dataLoading}
                     data={dataFilters}
                     onChange={(actionType,value) => {

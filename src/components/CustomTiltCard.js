@@ -25,12 +25,13 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading, handle
                     gridGap: '20px',
                     gridTemplateColumns: 'repeat(auto-fit,180px)',
                     gridTemplateRows: 'repeat(auto-fit,220px)',
+                    justifyContent: 'center',
                     width: '100%',
-                    padding: '20px 0',
+                    padding: '20px 20px',
                     overflow: 'hidden',
                     overflowY: loading ? 'hidden' : 'auto',
                     flex: 1,
-                    position: 'relative'
+                    position: 'relative',
                 }}
             >
                 {/* <div className='absolute top-[50%] left-[50%] z-10 w-full  bg-red text-white '>

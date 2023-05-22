@@ -7,7 +7,7 @@ const CustomPagination = ({starlinkData, loading, onPageChange, onLimitChange}) 
 
 
   return (
-    <div className='my-2 flex'>
+    <div className='my-2 flex lg:flex-row flex-col px-4'>
         <CustomSpinner spinning={loading}>
             <ConfigProvider
             theme={{
@@ -22,28 +22,37 @@ const CustomPagination = ({starlinkData, loading, onPageChange, onLimitChange}) 
                 },
             }}
             >
-                <Pagination
-                    size="default" 
-                    showSizeChanger={false}
-                    total={starlinkData?.totalDocs || 0} 
-                    current={starlinkData?.page || 0}
-                    showTotal={(total, range) => total > 0 ? `${range[0]}-${range[1]} of ${total} items` : '0 results'}
-                    pageSize={starlinkData?.limit || 0}
-                    onChange={onPageChange}
-                />
+                <div className='flex items-center justify-center mt-1'>
+                    <Pagination
+                        size="default" 
+                        responsive
+                        showSizeChanger={false}
+                        total={starlinkData?.totalDocs || 0} 
+                        current={starlinkData?.page || 0}
+                        // showTotal={(total, range) => total > 0 ? `${range[0]}-${range[1]} of ${total} items` : '0 results'}
+                        pageSize={starlinkData?.limit || 0}
+                        onChange={onPageChange}
+                    />
+                </div>
             </ConfigProvider>
         </CustomSpinner>
 
-        <CustomSelect 
-            disabled={loading}
-            value={starlinkData?.limit}
-            onChange={onLimitChange}
-            options={[
-                { value: 10, label: '10 / page' },
-                { value: 20, label: '20 / page' },
-                { value: 50, label: '50 / page' },
-            ]}
-        />
+        <div className='lg:w-[unset] w-full flex items-center justify-center'>
+            <CustomSelect 
+                disabled={loading}
+                value={starlinkData?.limit}
+                onChange={onLimitChange}
+                style={{
+                    width: '110px'
+                }}
+                className='lg:my-0 my-2'
+                options={[
+                    { value: 10, label: '10 / page' },
+                    { value: 20, label: '20 / page' },
+                    { value: 50, label: '50 / page' },
+                ]}
+            />
+        </div>
     </div>
   )
 }
