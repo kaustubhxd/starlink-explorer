@@ -166,7 +166,7 @@ function App() {
                     handleSatSelect={handleSatSelect}
                   />
                 </div>
-                <div className='absolute bottom-4 right-6 rounded-full border cursor-pointer
+                <div className='absolute bottom-20 right-6 rounded-full border cursor-pointer
                   border-white h-10 w-10 flex items-center justify-center lg:hidden'
                     onClick={() => {
                       const element = document.querySelector(`#list-parent`)
