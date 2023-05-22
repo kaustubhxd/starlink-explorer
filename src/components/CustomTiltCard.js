@@ -82,6 +82,9 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading, handle
                                 onClick={() => {
                                     handleModal(id)
                                 }}
+                                onTouchStart={() => {
+                                    handleModal(id)
+                                }}
                             >
                                 SHOW MORE
                             </div>

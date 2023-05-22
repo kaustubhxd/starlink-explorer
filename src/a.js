@@ -11,6 +11,7 @@ import CustomFilters from './components/CustomFilters';
 import { SAT_STATUS, SAT_TYPE } from './helpers/constants';
 import CustomModal from './components/CustomModal';
 import { DownOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
 function App() {
 
@@ -144,9 +145,9 @@ function App() {
 
   return (
     <MyContext.Provider value={{starlinkData, setStarlinkData}}>
-      <div className="App relative lg:overflow-hidden">
-            <div className='lg:h-screen flex flex-col lg:flex-row bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
-              <div className='flex flex-col bg-transparent h-screen relative'>
+      <div className="relative lg:overflow-hidden">
+            <div className=' flex flex-col lg:flex-row bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
+              <div className='flex flex-col bg-transparent relative'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
                   <CustomToggle 
                     value={globeTexture} 
@@ -175,7 +176,7 @@ function App() {
                     <DownOutlined style={{ color: 'white' }} />
                 </div>
               </div>
-              <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen'>
+              <div className='flex-1 flex flex-col h-screen overflow-hidden' id='list-parent'>
                 <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
                   {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters 
@@ -222,19 +223,28 @@ function App() {
                 />
               </div>
             </div>
-
-            <CustomModal 
+            {infoModal?.open && <Modal
               open={infoModal?.open}
-              id={infoModal?.id}
-              closeModal={() => handleModal()}
-            />
-
-
-            
-
+              centered
+              maskClosable
+              bodyStyle={{
+                padding: 0,
+                margin: 0,
+              }}
+              footer={null}
+              closable={false}
+            >
+              <CustomModal 
+                  open={infoModal?.open}
+                  id={infoModal?.id}
+                  closeModal={() => handleModal()}
+                />
+            </Modal>}
+        
       </div>
     </MyContext.Provider>
   );
 }
 
 export default App;
+  
