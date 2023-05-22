@@ -11,6 +11,7 @@ import CustomFilters from './components/CustomFilters';
 import { SAT_STATUS, SAT_TYPE } from './helpers/constants';
 import CustomModal from './components/CustomModal';
 import { DownOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
 function App() {
 
@@ -223,11 +224,25 @@ function App() {
               </div>
             </div>
 
-            <CustomModal 
-              open={infoModal?.open}
-              id={infoModal?.id}
-              closeModal={() => handleModal()}
-            />
+            {infoModal?.open && (
+              <Modal
+                open={infoModal?.open}
+                centered
+                maskClosable
+                bodyStyle={{
+                  padding: 0,
+                  margin: 0,
+                }}
+                footer={null}
+                closable={false}
+              >
+                <CustomModal 
+                    open={infoModal?.open}
+                    id={infoModal?.id}
+                    closeModal={() => handleModal()}
+                  />
+              </Modal>
+            )}
 
 
             
