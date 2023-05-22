@@ -9,6 +9,7 @@ import CustomToggle from './components/CustomToggle';
 import CustomPagination from './components/CustomPagination';
 import CustomFilters from './components/CustomFilters';
 import { SAT_STATUS, SAT_TYPE } from './helpers/constants';
+import CustomModal from './components/CustomModal';
 
 function App() {
 
@@ -20,7 +21,13 @@ function App() {
   const [dataFilters, setDataFilters] = useState({
     status: SAT_STATUS.BOTH,
     search: null,
-    type: SAT_TYPE.ALL
+    type: SAT_TYPE.ALL,
+    dateRange: null
+  })
+
+  const [infoModal, setInfoModal] = useState({
+    open: false,
+    id: null
   })
 
   const getDecayValue = (status) => {
@@ -48,28 +55,57 @@ function App() {
     }
   }
 
+  const getDateRangeValue = (dateRange) => {
+
+    const payload = {}
+    if(dateRange?.startDate) payload["$gte"] = dateRange?.startDate
+    if(dateRange?.endDate) payload["$lte"] = dateRange?.endDate 
+
+    if(Object.keys(payload).length === 0 ) return undefined
+    return payload
+  }
+
   const postQuery = ({ 
       page = ( starlinkData?.page || 1 ), 
       limit = ( starlinkData?.limit || 10 ), 
       status = ( dataFilters?.status || 0),
-      type = ( dataFilters?.type || undefined )
-    }) => {
+      type = ( dataFilters?.type || undefined ),
+      search = ( dataFilters?.search || undefined ),
+      dateRange = ( dataFilters?.dateRange || undefined )
+    }, actionType) => {
     setDataLoading(true)
+
+    const resetPage = actionType !== 'page'
+    console.log("resetPage: ", actionType, resetPage)
+
     client.post('https://api.spacexdata.com/v4/starlink/query', {
       "query": {
           "latitude": getDecayValue(status),
-          "version":  getTypeValue(type)
+          "version":  getTypeValue(type),
+          "spaceTrack.LAUNCH_DATE": getDateRangeValue(dateRange)
       },
       "options": {
           "limit": limit,
-          "page": page,
+          "page": resetPage ? 1 : page,
           "pagination": true,
           "populate": [
               "launch"
           ],
-          "sort":{
+          "sort": {
             "spaceTrack.LAUNCH_DATE":"desc"
-         }
+         },
+         "select": [
+            "height_km",
+            "latitude",
+            "longitude",
+            "velocity_kms",
+            "version",
+            "id",
+            "spaceTrack.OBJECT_NAME",
+            "spaceTrack.LAUNCH_DATE",
+            "spaceTrack.DECAYED",
+            "spaceTrack.DECAY_DATE"
+          ]
       }
     }).then(res => {
         console.log(res.data)
@@ -91,18 +127,24 @@ function App() {
     setSelectedCard(id)
   }
 
-  const handleFilters = ({ page,limit, status,type }) => {
-    postQuery({ page,limit, status, type })
+  const handleFilters = ({ page,limit, status,type, search, dateRange}, actionType) => {
+    postQuery({ page,limit, status, type, search, dateRange }, actionType)
   }
 
   const getOperationalSats  = (list) => {
     return list?.filter(sat => !!sat.latitude) || []
   }
 
+  const handleModal = (id) => {
+    setInfoModal({
+      id, open: !!id
+    })
+  }
+
   return (
     <MyContext.Provider value={{starlinkData, setStarlinkData}}>
-      <div className="App">
-            <div className='w-screen h-screen flex bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
+      <div className="App relative">
+            <div className='w-screen h-screen flex flex-col lg:flex-row bg-transparent' style={{backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)'  }}>
               <div className='flex flex-col bg-transparent'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
                   <CustomToggle 
@@ -130,16 +172,23 @@ function App() {
                     className={'mt-2'}
                     loading={dataLoading}
                     data={dataFilters}
-                    onChange={(type,value) => {
-                      console.log(type,value)
+                    onChange={(actionType,value) => {
+                      console.log(actionType,value)
                       setDataFilters({
                         ...dataFilters,
-                        [type]: value
+                        [actionType]: value
                       })
-                      if(type === 'search') return
-                      handleFilters({ [type] : value })
-
-                      
+                      handleFilters({ [actionType] : value }, actionType)
+                    }}
+                    onSearch={(actionType, value) => {
+                      if(actionType === 'searching'){
+                        setDataFilters({
+                          ...dataFilters,
+                          search: value
+                        })
+                      }else{
+                        handleFilters({ search : value }, actionType)
+                      }
                     }}
                   />
                 </div>
@@ -148,20 +197,30 @@ function App() {
                   starList={starlinkData.docs}
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}
+                  handleModal={handleModal}
                 />
                 <CustomPagination 
                   loading={dataLoading}
                   starlinkData={starlinkData}
-                  onPageChange={(page, limit) => {
-                      console.log(page, limit)
-                      handleFilters({ page,limit })
+                  onPageChange={(page, limit,a,b,c,d) => {
+                      console.log(page, limit,a,b,c,d)
+                      handleFilters({ page }, 'page')
                   }} 
                   onLimitChange={(limit) => {
-                    handleFilters({limit})
+                    handleFilters({limit}, 'limit')
                   }}
                 />
               </div>
             </div>
+
+            <CustomModal 
+              open={infoModal?.open}
+              id={infoModal?.id}
+              closeModal={() => handleModal()}
+            />
+
+
+            
 
       </div>
     </MyContext.Provider>

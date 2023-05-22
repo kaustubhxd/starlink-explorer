@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
+import CustomDataStrip from './CustomDataStrip';
 
 
 const renderDataStrip = (label, value) => (
@@ -10,7 +11,7 @@ const renderDataStrip = (label, value) => (
     </div>
 )
 
-const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
+const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading, handleModal}) => {
 
     useEffect(() => {
         const element = document.querySelector(`#card-${selectedSat}`)
@@ -48,11 +49,11 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
                         tiltMaxAngleX={5}
                         tiltMaxAngleY={5}
                         glareBorderRadius='8px'
-                        style={{height: '220px', width: '180px'}}
+                        style={{height: '230px', width: '180px'}}
                     >
                         <div 
                             id={`card-${id}`}
-                            className='h-[220px] w-[180px] rounded-xl border bg-[#161B22] opacity-80 p-4 cursor-pointer'
+                            className='h-[230px] w-[180px] rounded-xl border bg-[#161B22] opacity-80 p-4 cursor-pointer'
                             onMouseDown={() => handleSatSelect(id)}
                             style={{
                                 borderColor: selectedSat === id ? '#56ED5C' : '#606771',
@@ -70,10 +71,18 @@ const CustomTiltCard = ({starList, selectedSat, handleSatSelect, loading}) => {
                                 {!spaceTrack?.DECAYED && <div className='poppins-400-10 text-[#56ED5C]'>Operational</div>}
                             </div>
                             <div className='mt-4 flex flex-col gap-y-1'>
-                                {renderDataStrip('Latitude', latitude?.toFixed(4))}
-                                {renderDataStrip('Longitude', longitude?.toFixed(4))}
-                                {renderDataStrip('Height', height_km?.toFixed(4))}
-                                {renderDataStrip('Velocity', velocity_kms && `${velocity_kms?.toFixed(4)} km/s`)}
+                                <CustomDataStrip label='Latitude' value={latitude?.toFixed(4)} />
+                                <CustomDataStrip label='Longitude' value={longitude?.toFixed(4)} />
+                                <CustomDataStrip label='Height' value={height_km?.toFixed(4)} />
+                                <CustomDataStrip label='Velocity' value={velocity_kms && `${velocity_kms?.toFixed(4)} km/s`} />                                
+                            </div>
+                            <div 
+                                className='poppins-400-10 mt-1 text-[rgba(30,144,255,0.8)] hover:underline hover:text-[rgba(30,144,255,1)]'
+                                onClick={() => {
+                                    handleModal(id)
+                                }}
+                            >
+                                SHOW MORE
                             </div>
                         </div>
                     </Tilt>

@@ -1,18 +1,34 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Input, Tooltip } from 'antd'
 import ConfigProvider from 'antd/es/config-provider';
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import CustomSelect from './CustomSelect';
 import { SAT_STATUS, SAT_TYPE } from '../helpers/constants';
 import { DatePicker } from 'antd';
+import debounce from 'lodash.debounce';
+import dayjs from 'dayjs';
 
 const { RangePicker } = DatePicker;
 
-const CustomFilters = ({className, style, loading, data, onChange}) => {
+const CustomFilters = ({className, style, loading, data, onChange, onSearch}) => {
+
+    // https://stackoverflow.com/questions/59383595/how-to-debounce-a-controlled-input
+    // const getSearchResults = useCallback(
+    //     debounce(value => {
+    //       console.log('DEBOUNCE', value)
+    //       onSearch('typed', value)
+    //     }, 500),
+    //     []
+    //   );
+    
+    //   useEffect(() => {
+    //     getSearchResults(data.search);
+    //   }, [data.search]);
+
     return (
         <div className={className} style={style}>
             <div className='flex gap-4'>
-                <ConfigProvider
+                {/* <ConfigProvider
                     theme={{
                         token: {
                             colorPrimary: '#56ED5C',
@@ -29,7 +45,7 @@ const CustomFilters = ({className, style, loading, data, onChange}) => {
                     placeholder="Search by name"
                     value={data['search']}
                     disabled={loading}
-                    onChange={(e) => onChange('search', e.target.value)}
+                    onChange={(e) => onSearch('searching', e.target.value)}
                     allowClear
                     style={{
                         width: 200,
@@ -40,7 +56,7 @@ const CustomFilters = ({className, style, loading, data, onChange}) => {
                         </Tooltip>
                     }
                 />
-                </ConfigProvider>
+                </ConfigProvider> */}
                 <div>
                     <CustomSelect 
                         disabled={loading}
@@ -97,7 +113,15 @@ const CustomFilters = ({className, style, loading, data, onChange}) => {
                         }
                     }}
             >
-                <RangePicker />
+                <RangePicker 
+                    allowEmpty={[true,true]}
+                    onChange={(a,b,c) => {
+                        console.log('ehehe',a,b,c)
+                        const iso = b.map((date) => date ? dayjs(date).toISOString() : undefined)
+                        console.log('isoooo', iso)
+                        onChange('dateRange', { startDate: iso[0], endDate: iso[1] })
+                    }}
+                />
             </ConfigProvider>
             </div>
         </div>

@@ -18,8 +18,6 @@ const ToggleItem = ({value, id, onSelect, children, style}) => (
 )
 
 const CustomToggle = ({value, onSelect, options}) => {
-
-
   return (
     <div className='flex cursor-pointer rounded-l-3xl rounded-r-3xl overflow-hidden'>
         <ToggleItem 

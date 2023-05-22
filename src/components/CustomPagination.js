@@ -27,7 +27,7 @@ const CustomPagination = ({starlinkData, loading, onPageChange, onLimitChange}) 
                     showSizeChanger={false}
                     total={starlinkData?.totalDocs || 0} 
                     current={starlinkData?.page || 0}
-                    showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                    showTotal={(total, range) => total > 0 ? `${range[0]}-${range[1]} of ${total} items` : '0 results'}
                     pageSize={starlinkData?.limit || 0}
                     onChange={onPageChange}
                 />

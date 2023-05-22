@@ -38,7 +38,7 @@ export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelec
 
     useEffect(() => {
       // load satellite data
-      globeEl.current.controls().enableZoom = true;
+      globeEl.current.controls().enableZoom = window.innerWidth >= 1024;
       globeEl.current.controls().autoRotateSpeed = 0.4;
       handleGlobeRotate(true)
     }, []);
@@ -113,7 +113,7 @@ export const CustomGlobe = ({globeTexture, starList, selectedSat, handleSatSelec
         }}
       >
         <Globe
-          width={window.innerWidth / 2}
+          width={window.innerWidth  < 1024 ? window.innerWidth : window.innerWidth / 2}
           height={window.innerHeight - 100}
           ref={globeEl}
           // width={w + shiftAmmount}
