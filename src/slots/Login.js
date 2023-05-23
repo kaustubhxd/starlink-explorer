@@ -5,9 +5,12 @@ import { MyContext } from '../store/Context'
 import CustomSpinner from '../components/CustomSpinner'
 import { Formik, useFormik } from 'formik'
 import * as Yup from 'yup'
+import { client, setAuthHeader } from '../helpers/axiosClient'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [attemptingLogin, setAttemptingLogin] = useState(false)
+  const [incorrectPreviousAttempt, setIncorrectPreviousAttempt] = useState(false)
 
   const { setAuthState } = useContext(MyContext)
 
@@ -26,14 +29,42 @@ const Login = () => {
         .required('Please enter password')
         .typeError('Please enter password')
     }),
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: (values, { resetForm }) => {
+      const { username, password } = values
+      tryLogin(username, password, resetForm)
     }
   })
 
+  const tryLogin = (username, password, resetForm) => {
+    setAttemptingLogin(true)
+    setShowPassword(false)
+    setIncorrectPreviousAttempt(false)
+
+    if (!username?.length || !password?.length) return
+
+    client.post('/auth/login', {
+      username,
+      password
+    }).then(res => {
+      const token = res?.data?.token
+      if (token) {
+        setAuthState({ token })
+        setAuthHeader(token)
+      } else {
+        throw new Error('Wrong username or password')
+      }
+    }).catch(e => {
+      setIncorrectPreviousAttempt(true)
+      resetForm()
+    })
+      .finally(() => {
+        setAttemptingLogin(false)
+      })
+  }
+
   return (
     <div className='flex flex-col lg:h-[unset] h-screen lg:w-full items-center justify-center text-white'>
-        <CustomSpinner spinning={false}>
+        <CustomSpinner spinning={attemptingLogin}>
             <div className='lg:bg-[rgba(20,25,32,0.6)] lg:w-[420px] p-9 lg:rounded-[20px]'>
                 <div className='poppins-700-28 py-2.5'>
                 <img src={require('../assets/starlink-explorer-text.svg').default} />
@@ -55,7 +86,7 @@ const Login = () => {
                         <CustomInput
                             name={'username'}
                             label={'Username'}
-                            autoComplete={false}
+                            autoComplete={'off'}
                             placeholder={'Enter username'}
                             formikHook={formik}
                             {...formik.getFieldProps('username')}
@@ -65,7 +96,7 @@ const Login = () => {
                             className={'pt-2'}
                             label={'Password'}
                             type={showPassword ? undefined : 'password'}
-                            autoComplete={false}
+                            autoComplete={'off'}
                             placeholder={'Enter password'}
                             suffix={(
                                 <div className='cursor-pointer' onClick={() => setShowPassword(!showPassword)}>
@@ -104,9 +135,9 @@ const Login = () => {
                             </ConfigProvider>
                         </div>
                         {/* {formik.isValid.toString()} */}
-                        {/* <div className='mt-2 poppins-400-13 text-[#FA7066]'>
+                        {incorrectPreviousAttempt && <div className='mt-2 poppins-400-13 text-[#FA7066]'>
                             Incorrect username or password
-                        </div> */}
+                        </div>}
                     </div>
                 </div>
             </div>

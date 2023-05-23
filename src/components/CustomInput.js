@@ -27,6 +27,7 @@ const CustomInput = ({
             >
                 <Input
                     name={name}
+                    value={value}
                     onChange={onChange}
                     placeholder={placeholder}
                     bordered={false}

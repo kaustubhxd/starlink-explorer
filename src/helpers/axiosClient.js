@@ -9,6 +9,15 @@ const client = axios.create({
   baseURL: `${URL}/${VERSION}`
 })
 
+const setAuthHeader = (token) => {
+  if (token) {
+    client.defaults.headers.common.Authorization = `Bearer ${token}`
+  } else {
+    delete client.defaults.headers.common.Authorization
+  }
+}
+
 export {
-  client
+  client,
+  setAuthHeader
 }
