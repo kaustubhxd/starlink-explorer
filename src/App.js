@@ -72,7 +72,7 @@ function App() {
       limit = ( starlinkData?.limit || 10 ), 
       status = ( dataFilters?.status || 0),
       type = ( dataFilters?.type || undefined ),
-      search = ( dataFilters?.search || undefined ),
+      // search = ( dataFilters?.search || undefined ),
       dateRange = ( dataFilters?.dateRange || undefined )
     }, actionType) => {
     setDataLoading(true)
@@ -80,44 +80,60 @@ function App() {
     const resetPage = actionType !== 'page'
     console.log("resetPage: ", actionType, resetPage)
 
-    client.post('https://api.spacexdata.com/v4/starlink/query', {
-      "query": {
-          "latitude": getDecayValue(status),
-          "version":  getTypeValue(type),
-          "spaceTrack.LAUNCH_DATE": getDateRangeValue(dateRange)
-      },
-      "options": {
-          "limit": limit,
-          "page": resetPage ? 1 : page,
-          "pagination": true,
-          "populate": [
-              "launch"
-          ],
-          "sort": {
-            "spaceTrack.LAUNCH_DATE":"desc"
-         },
-         "select": [
-            "height_km",
-            "latitude",
-            "longitude",
-            "velocity_kms",
-            "version",
-            "id",
-            "spaceTrack.OBJECT_NAME",
-            "spaceTrack.LAUNCH_DATE",
-            "spaceTrack.DECAYED",
-            "spaceTrack.DECAY_DATE"
-          ]
-      }
+    client.post('http://localhost:4000/v1/starlink/query', {
+      page : resetPage ? 1 : page,
+      limit,
+      status,
+      type,
+      dateRange
     }).then(res => {
-        console.log(res.data)
-        const data = res.data
-        console.log(data)        
+      console.log(res.data)
+      const data = res.data
+      console.log(data)        
 
-        setStarlinkData(data)
-    }).finally(() => {
+      setStarlinkData(data)
+  }).finally(() => {
       setDataLoading(false)
-    })
+  })
+
+    // client.post('https://api.spacexdata.com/v4/starlink/query', {
+    //   "query": {
+    //       "latitude": getDecayValue(status),
+    //       "version":  getTypeValue(type),
+    //       "spaceTrack.LAUNCH_DATE": getDateRangeValue(dateRange)
+    //   },
+    //   "options": {
+    //       "limit": limit,
+    //       "page": resetPage ? 1 : page,
+    //       "pagination": true,
+    //       "populate": [
+    //           "launch"
+    //       ],
+    //       "sort": {
+    //         "spaceTrack.LAUNCH_DATE":"desc"
+    //      },
+    //      "select": [
+    //         "height_km",
+    //         "latitude",
+    //         "longitude",
+    //         "velocity_kms",
+    //         "version",
+    //         "id",
+    //         "spaceTrack.OBJECT_NAME",
+    //         "spaceTrack.LAUNCH_DATE",
+    //         "spaceTrack.DECAYED",
+    //         "spaceTrack.DECAY_DATE"
+    //       ]
+    //   }
+    // }).then(res => {
+    //     console.log(res.data)
+    //     const data = res.data
+    //     console.log(data)        
+
+    //     setStarlinkData(data)
+    // }).finally(() => {
+    //   setDataLoading(false)
+    // })
   }
 
   useEffect(() => {

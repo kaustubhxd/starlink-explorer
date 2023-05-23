@@ -71,7 +71,7 @@ const CustomTiltCard = ({ selectedSat, handleSatSelect, loading, handleModal }) 
                             <div className='mt-4 flex flex-col gap-y-1'>
                                 <CustomDataStrip label='Latitude' value={latitude?.toFixed(4)} />
                                 <CustomDataStrip label='Longitude' value={longitude?.toFixed(4)} />
-                                <CustomDataStrip label='Height' value={height_km?.toFixed(4)} />
+                                <CustomDataStrip label='Height' value={height_km ? `${height_km?.toFixed(4)} km` : undefined} />
                                 <CustomDataStrip label='Velocity' value={velocity_kms && `${velocity_kms?.toFixed(4)} km/s`} />                                
                             </div>
                             <div 

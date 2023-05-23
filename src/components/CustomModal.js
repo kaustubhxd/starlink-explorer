@@ -13,8 +13,9 @@ const CustomModal = ({ open, id, closeModal }) => {
     useEffect(() => {
         if(!id) return
         setDataLoading(true)
-        client.get(`https://api.spacexdata.com/v4/starlink/${id}`)
+        client.get(`http://localhost:4000/v1/starlink/${id}`)
             .then(res => {
+                console.log(res)
                 console.log(res.data) 
                 setData(res.data) 
         

@@ -13,6 +13,10 @@ jobs:
         run: |
           yarn install
           CI='' yarn build
+        env:
+          CI: false
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_API_VERSION: ${{ secrets.REACT_APP_API_VERSION }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.5
