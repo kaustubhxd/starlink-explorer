@@ -7,7 +7,6 @@ const client = axios.create({
     baseURL: `${URL}/${VERSION}`,
 });
 
-
 export {
     client
 }
