@@ -1,25 +1,22 @@
 import { ConfigProvider, Select } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 
-const CustomSelect = ({disabled, placeholder, value, onChange, options, style, prefix, className} ) => {
-
-    const [open, setOpen] = useState(false)
-
-    return (
+const CustomSelect = ({ disabled, placeholder, value, onChange, options, style, prefix, className }) => {
+  return (
     <ConfigProvider
             theme={{
-            token: {
+              token: {
                 colorBgContainer: 'black',
                 colorText: 'white',
                 colorPrimary: '#56ED5C',
-                colorBgElevated:'black',
+                colorBgElevated: 'black',
                 colorPrimaryBg: 'rgba(94, 237, 86, 0.5)',
-                colorTextBase: 'white',
-            }
+                colorTextBase: 'white'
+              }
             }}
     >
         {/* <div className='border border-white rounded-md flex items-center cursor-pointer' onClick={() => setOpen(!open)}> */}
-            {prefix ? prefix : '' }
+            {prefix || '' }
             <Select
                 placeholder={placeholder}
                 disabled={disabled}

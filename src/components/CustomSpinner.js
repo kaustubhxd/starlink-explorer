@@ -1,14 +1,14 @@
 import { ConfigProvider, Spin } from 'antd'
 import React from 'react'
 
-const CustomSpinner = ({spinning, children}) => {
+const CustomSpinner = ({ spinning, children }) => {
   return (
     <ConfigProvider
         theme={{
-            token: {
+          token: {
             colorPrimary: '#56ED5C',
             colorBgContainer: 'rgba(0,0,0,0.3)'
-            },
+          }
         }}
     >
         <Spin spinning={spinning}>{children}</Spin>

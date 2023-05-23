@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 
 const URL = process.env.REACT_APP_API_URL
 const VERSION = process.env.REACT_APP_API_VERSION
@@ -6,10 +6,9 @@ const VERSION = process.env.REACT_APP_API_VERSION
 console.log(URL, VERSION)
 
 const client = axios.create({
-    baseURL: `${URL}/${VERSION}`,
-});
-
+  baseURL: `${URL}/${VERSION}`
+})
 
 export {
-    client
+  client
 }
