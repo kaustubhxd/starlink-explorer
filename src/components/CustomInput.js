@@ -13,7 +13,7 @@ const CustomInput = ({
 
   return (
     <div className={className}>
-        <div className='poppins-400-12 mb-2 text-white'>{label}</div>
+        <div className='poppins-400-12 mb-1 text-white'>{label}</div>
         <div className='border border-[#EBEBEB] rounded-lg py-2 text-white flex pr-4 h-10 items-center pl-2'>
             <ConfigProvider
                 theme={{
@@ -38,7 +38,13 @@ const CustomInput = ({
                 {suffix}
             </div>
         </div>
-        <div className='text-[#FA7066] mt-1 h-5'>
+        <div
+          className='text-[#FA7066] mt-1 text-xs'
+          style={{
+            height: showError ? '16px' : '0px',
+            transition: 'all 0.2s ease-in-out'
+          }}
+        >
           {showError && <div>{errorText}</div>}
         </div>
     </div>

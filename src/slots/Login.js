@@ -62,7 +62,7 @@ const Login = () => {
                         />
                         <CustomInput
                             name={'password'}
-                            className={'pt-4'}
+                            className={'pt-2'}
                             label={'Password'}
                             type={showPassword ? undefined : 'password'}
                             autoComplete={false}

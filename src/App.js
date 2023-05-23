@@ -91,7 +91,7 @@ function App () {
     <MyContext.Provider value={{ starlinkData, setStarlinkData, authState, setAuthState }}>
       <div className="App relative lg:overflow-hidden">
             <div className='lg:h-screen flex flex-col lg:flex-row bg-transparent' style={{ backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)' }}>
-              {!!authState?.token && <div className='flex flex-col bg-transparent h-screen relative'>
+              <div className='hidden lg:flex flex-col bg-transparent h-screen relative'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
                   <CustomToggle
                     value={globeTexture}
@@ -118,7 +118,7 @@ function App () {
                 >
                     <DownOutlined style={{ color: 'white' }} />
                 </div>
-              </div>}
+              </div>
               {authState?.token
                 ? <SatList
                 loading={dataLoading}
