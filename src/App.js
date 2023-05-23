@@ -112,7 +112,7 @@ function App () {
                     <DownOutlined style={{ color: 'white' }} />
                 </div>
               </div>
-              <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen'>
+              <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen lg:w-full'>
                 <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
                   {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters
