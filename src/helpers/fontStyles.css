@@ -17,6 +17,18 @@
     line-height: 1.125rem;
     font-style: 'Poppins' !important;
   }
+  .poppins-400-13 {
+    font-size: .8125rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    font-style: 'Poppins' !important;
+  }
+  .poppins-400-14 {
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    font-style: 'Poppins' !important;
+  }
   .poppins-400-15 {
     font-size: 0.9375rem;
     font-weight: 400;
@@ -125,8 +137,20 @@
     font-style: 'Poppins' !important;
 
   }
+  .poppins-700-12 {
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: 0.9375rem;
+    font-style: 'Poppins' !important;
+  }
   .poppins-700-13 {
-    font-size: 0.8125rem;
+    font-size: .8125rem;
+    font-weight: 700;
+    line-height: 0.9375rem;
+    font-style: 'Poppins' !important;
+  }
+  .poppins-700-28 {
+    font-size: 1.75rem;
     font-weight: 700;
     line-height: 0.9375rem;
     font-style: 'Poppins' !important;

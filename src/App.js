@@ -12,8 +12,15 @@ import { SAT_STATUS, SAT_TYPE } from './helpers/constants'
 import CustomModal from './components/CustomModal'
 import { DownOutlined } from '@ant-design/icons'
 import { Modal } from 'antd'
+import SatList from './slots/SatList'
+import CustomInput from './components/CustomInput'
+import Login from './slots/Login'
 
 function App () {
+  const [authState, setAuthState] = useState({
+    token: null
+  })
+
   const [globeTexture, setGlobeTexture] = useState(3)
 
   const [starlinkData, setStarlinkData] = useState([])
@@ -81,10 +88,10 @@ function App () {
   }
 
   return (
-    <MyContext.Provider value={{ starlinkData, setStarlinkData }}>
+    <MyContext.Provider value={{ starlinkData, setStarlinkData, authState, setAuthState }}>
       <div className="App relative lg:overflow-hidden">
             <div className='lg:h-screen flex flex-col lg:flex-row bg-transparent' style={{ backgroundImage: 'url(//unpkg.com/three-globe/example/img/night-sky.png)' }}>
-              <div className='flex flex-col bg-transparent h-screen relative'>
+              {!!authState?.token && <div className='flex flex-col bg-transparent h-screen relative'>
                 <div className='mt-[40px] flex items-center justify-center cursor-grab'>
                   <CustomToggle
                     value={globeTexture}
@@ -111,51 +118,20 @@ function App () {
                 >
                     <DownOutlined style={{ color: 'white' }} />
                 </div>
-              </div>
-              <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen lg:w-full'>
-                <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
-                  {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
-                  <CustomFilters
-                    className={'mt-5 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
-                    loading={dataLoading}
-                    data={dataFilters}
-                    onChange={(actionType, value) => {
-                      console.log(actionType, value)
-                      setDataFilters({
-                        ...dataFilters,
-                        [actionType]: value
-                      })
-                      handleFilters({ [actionType]: value }, actionType)
-                    }}
-                    onSearch={(actionType, value) => {
-                      if (actionType === 'searching') {
-                        setDataFilters({
-                          ...dataFilters,
-                          search: value
-                        })
-                      } else {
-                        handleFilters({ search: value }, actionType)
-                      }
-                    }}
-                  />
-                </div>
-                <CustomTiltCards
-                  loading={dataLoading}
-                  selectedSat={selectedSat}
-                  handleSatSelect={handleSatSelect}
-                  handleModal={handleModal}
-                />
-                <CustomPagination
-                  loading={dataLoading}
-                  onPageChange={(page, limit, a, b, c, d) => {
-                    console.log(page, limit, a, b, c, d)
-                    handleFilters({ page }, 'page')
-                  }}
-                  onLimitChange={(limit) => {
-                    handleFilters({ limit }, 'limit')
-                  }}
-                />
-              </div>
+              </div>}
+              {authState?.token
+                ? <SatList
+                loading={dataLoading}
+                filters={dataFilters}
+                setFilters={setDataFilters}
+                handleFilters={handleFilters}
+                selectedSat={selectedSat}
+                handleSatSelect={handleSatSelect}
+                handleModal={handleModal}
+              />
+                : <Login />
+            }
+
             </div>
 
             {infoModal?.open && (
