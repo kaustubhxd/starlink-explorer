@@ -1,7 +1,7 @@
 import './index.css'
 import { CustomGlobe } from './components/CustomGlobe'
 import React, { useEffect, useState } from 'react'
-import CustomTiltCard from './components/CustomTiltCard'
+import CustomTiltCards from './components/CustomTiltCards'
 import { MyContext } from './store/Context'
 import { client } from './helpers/axiosClient'
 import './helpers/fontStyles.css'
@@ -139,7 +139,7 @@ function App () {
                     }}
                   />
                 </div>
-                <CustomTiltCard
+                <CustomTiltCards
                   loading={dataLoading}
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}

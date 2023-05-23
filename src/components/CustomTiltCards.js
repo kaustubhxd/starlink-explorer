@@ -4,7 +4,7 @@ import Tilt from 'react-parallax-tilt'
 import CustomDataStrip from './CustomDataStrip'
 import { MyContext } from '../store/Context'
 
-const CustomTiltCard = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
+const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
   const starList = useContext(MyContext)?.starlinkData?.docs
 
   useEffect(() => {
@@ -89,4 +89,4 @@ const CustomTiltCard = ({ selectedSat, handleSatSelect, loading, handleModal }) 
   )
 }
 
-export default CustomTiltCard
+export default CustomTiltCards

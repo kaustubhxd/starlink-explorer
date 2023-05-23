@@ -1,10 +1,12 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    'jest/globals': true
   },
   extends: [
     'plugin:react/recommended',
+    'plugin:jest/recommended',
     'standard'
   ],
   overrides: [
@@ -14,7 +16,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react'
+    'react',
+    'jest'
   ],
   rules: {
     'react/prop-types': 'off',
