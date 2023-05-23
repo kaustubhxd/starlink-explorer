@@ -80,7 +80,7 @@ function App() {
     const resetPage = actionType !== 'page'
     console.log("resetPage: ", actionType, resetPage)
 
-    client.post('http://localhost:4000/v1/starlink/query', {
+    client.post('/starlink/query', {
       page : resetPage ? 1 : page,
       limit,
       status,

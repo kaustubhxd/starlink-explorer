@@ -13,7 +13,7 @@ const CustomModal = ({ open, id, closeModal }) => {
     useEffect(() => {
         if(!id) return
         setDataLoading(true)
-        client.get(`http://localhost:4000/v1/starlink/${id}`)
+        client.get(`/starlink/${id}`)
             .then(res => {
                 console.log(res)
                 console.log(res.data) 
