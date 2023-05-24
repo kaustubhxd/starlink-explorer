@@ -77,13 +77,7 @@ const CustomModal = ({ open, id, closeModal }) => {
                       onMouseOver={() => setCloseHovered(true)}
                       onMouseOut={() => setCloseHovered(false)}
                   >
-                          <CloseCircle color={closeHovered ? 'rgba(77, 213, 83,1)' : 'rgba(77, 213, 83,0.6)'} />
-                          {/* <CloseCircleOutlined
-                              style={{
-                                color: '#56ED5C',
-                                fontSize: '150%'
-                              }}
-                          /> */}
+                          <CloseCircle color={closeHovered ? 'rgba(250, 250, 250, 1)' : 'rgba(250, 250, 250,0.6)'} />
                       </div>
                   </div>
 
@@ -146,7 +140,7 @@ const CustomModal = ({ open, id, closeModal }) => {
                               closeModal()
                             }}
                           >
-                            <CloseCircle color={closeHovered ? 'rgba(77, 213, 83,1)' : 'rgba(77, 213, 83,0.6)'} />
+                            <CloseCircle color={closeHovered ? 'rgba(250, 250, 250,1)' : 'rgba(250, 250, 250,0.6)'} />
                           </div>
 
                       </div>
