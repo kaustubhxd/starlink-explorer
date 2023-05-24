@@ -39,7 +39,7 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                         key={id}
                         glareEnable={true}
                         glareMaxOpacity={0.2}
-                        glareColor="lightgreen"
+                        glareColor={'lightgreen'}
                         glarePosition="all"
                         tiltMaxAngleX={5}
                         tiltMaxAngleY={5}
@@ -49,9 +49,14 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                         <div
                             id={`card-${id}`}
                             className='h-[230px] w-[180px] rounded-xl border bg-[#161B22] opacity-80 p-4 cursor-pointer'
-                            onMouseDown={() => handleSatSelect(id)}
+                            onMouseDown={(e) => {
+                              console.log(e.target.id)
+                              if (e.target.id === 'show-more-text') {
+                                setTimeout(() => handleSatSelect(id), 300)
+                              } else handleSatSelect(id)
+                            }}
                             style={{
-                              borderColor: selectedSat === id ? '#56ED5C' : '#606771',
+                              borderColor: selectedSat === id ? spaceTrack?.DECAYED ? '#FA7066' : '#56ED5C' : '#606771',
                               borderWidth: selectedSat === id ? '2px' : '1px',
                               transition: 'all 0.2s ease-in-out'
                             }}
@@ -62,7 +67,7 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                             <div className='mt-1'>
                                 <div className='poppins-600-16 text-white capitalize'>{spaceTrack?.OBJECT_NAME?.replace('-', ' ')}</div>
                                 <div className='poppins-400-10 text-[#768599]'>Launch:  {spaceTrack?.LAUNCH_DATE ? dayjs(spaceTrack?.LAUNCH_DATE).format('LL') : '-'}</div>
-                                {spaceTrack?.DECAYED ? <div className='poppins-400-10 text-[red]'>Decay: {spaceTrack?.DECAY_DATE ? dayjs(spaceTrack?.DECAY_DATE).format('LL') : '-'}</div> : ''}
+                                {spaceTrack?.DECAYED ? <div className='poppins-400-10 text-[#FA7066]'>Decay: {spaceTrack?.DECAY_DATE ? dayjs(spaceTrack?.DECAY_DATE).format('LL') : '-'}</div> : ''}
                                 {!spaceTrack?.DECAYED && <div className='poppins-400-10 text-[#56ED5C]'>Operational</div>}
                             </div>
                             <div className='mt-4 flex flex-col gap-y-1'>
@@ -72,11 +77,14 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                                 <CustomDataStrip label='Velocity' value={velocityKms && `${velocityKms?.toFixed(4)} km/s`} />
                             </div>
                             <div
+                                id = 'show-more-text'
                                 className='poppins-400-10 mt-1 text-[rgba(30,144,255,0.8)] hover:underline hover:text-[rgba(30,144,255,1)]'
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation()
                                   handleModal(id)
                                 }}
-                                onTouchStart={() => {
+                                onTouchStart={(e) => {
+                                  e.stopPropagation()
                                   handleModal(id)
                                 }}
                             >

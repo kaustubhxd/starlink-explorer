@@ -94,7 +94,7 @@ const CustomFilters = ({ className, style, loading, data, onChange, onSearch }) 
                             colorPrimary: '#56ED5C',
                             colorBgContainer: 'transparent',
                             colorTextPlaceholder: 'gray',
-                            colorPrimaryActive: 'red',
+                            // colorPrimaryActive: 'red',
                             // colorBgBase: 'rgba(22, 27, 34,0.8)',
                             colorText: 'white',
                             colorBgElevated: 'rgba(22, 27, 34,0.95)',

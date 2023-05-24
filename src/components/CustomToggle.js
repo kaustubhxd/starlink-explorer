@@ -1,8 +1,12 @@
 import React from 'react'
 import CustomTilt from './CustomTilt'
+import useWindowSize from '../hooks/useWindowSize'
 
-const ToggleItem = ({ value, id, onSelect, children, style }) => (
-    <CustomTilt borderRadius={24} opacity={0.8} glareEnable={!!(window.innerWidth >= 1024)}>
+const ToggleItem = ({ value, id, onSelect, children, style }) => {
+  const { isMobile } = useWindowSize()
+
+  return (
+    <CustomTilt borderRadius={24} opacity={0.8} glareEnable={!isMobile}>
         <div className='border-white border p-3 w-24 text-center text-white cursor-pointer'
             style={{
               backgroundColor: value === id ? 'rgba(96, 237, 86, 0.4)' : undefined,
@@ -15,7 +19,8 @@ const ToggleItem = ({ value, id, onSelect, children, style }) => (
             {children}
         </div>
     </CustomTilt>
-)
+  )
+}
 
 const CustomToggle = ({ value, onSelect, options }) => {
   return (
