@@ -48,3 +48,22 @@ body {
 .ant-modal-content{
     background-color: transparent !important;
 }
+
+/* @media (max-width: 480px) {
+    .ant-calendar-range {
+        width: 320px;
+    }
+    .ant-calendar-range-part {
+        width: 100%;
+    }
+} */
+
+@media (max-width: 480px) {
+    .ant-picker-panels{
+        display: flex;
+        flex-direction: column;
+    }
+    .ant-picker-dropdown{
+        top: 50% !important;
+    }
+}
