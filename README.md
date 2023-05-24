@@ -1,4 +1,4 @@
-# SpaceX - Starlink Explorer
+# 🌎 SpaceX - Starlink Explorer
 
 Explore the fascinating world of SpaceX Starlink satellites and their orbital data. Our website allows you to discover real-time information about each Starlink satellite.
 With our interactive 3D globe, you can visualize the exact locations of these satellites as they orbit the Earth. Also filter by type, status and date range for historical analysis.
