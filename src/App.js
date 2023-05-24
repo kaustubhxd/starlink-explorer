@@ -42,11 +42,13 @@ function App () {
   const postQuery = ({
     page = (starlinkData?.page || 1),
     limit = (starlinkData?.limit || 10),
-    status = (dataFilters?.status || SAT_STATUS.BOTH),
+    status = (dataFilters?.status),
     type = (dataFilters?.type || SAT_TYPE.ALL),
     // search = ( dataFilters?.search || undefined ),
     dateRange = (dataFilters?.dateRange || undefined)
   }, actionType) => {
+    console.log({ page, limit, status, type, dateRange }, actionType)
+
     setDataLoading(true)
 
     const resetPage = actionType !== 'page'
@@ -59,7 +61,7 @@ function App () {
       type,
       dateRange
     }).then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       const data = res.data
       console.log(data)
 
@@ -128,14 +130,14 @@ function App () {
                 : ''}
               {authState?.token
                 ? <SatList
-                loading={dataLoading}
-                filters={dataFilters}
-                setFilters={setDataFilters}
-                handleFilters={handleFilters}
-                selectedSat={selectedSat}
-                handleSatSelect={handleSatSelect}
-                handleModal={handleModal}
-              />
+                    loading={dataLoading}
+                    filters={dataFilters}
+                    setFilters={setDataFilters}
+                    handleFilters={handleFilters}
+                    selectedSat={selectedSat}
+                    handleSatSelect={handleSatSelect}
+                    handleModal={handleModal}
+                  />
                 : <Login />
             }
 
