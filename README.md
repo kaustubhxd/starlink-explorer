@@ -1,7 +1,7 @@
-# Getting Started with Create React App
+# SpaceX - Starlink Explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+Explore the fascinating world of SpaceX Starlink satellites and their orbital data. Our website allows you to discover real-time information about each Starlink satellite.
+With our interactive 3D globe, you can visualize the exact locations of these satellites as they orbit the Earth. Also filter by type, status and date range for historical analysis.
 ## Available Scripts
 
 In the project directory, you can run:
