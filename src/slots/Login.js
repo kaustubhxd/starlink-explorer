@@ -94,9 +94,9 @@ const Login = () => {
                   </div>
               </div>
               <div className='mt-10'>
+                <div className='mb-2'>Test Login: Username: stargazer | Password: 1234</div>
 
                   <div>
-
                       <CustomInput
                           name={'username'}
                           label={'Username'}
