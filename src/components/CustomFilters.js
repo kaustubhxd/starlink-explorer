@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 
 const { RangePicker } = DatePicker
 
-const CustomFilters = ({ className, style, loading, data, onChange, onSearch }) => {
+const CustomFilters = ({ className, style, loading, data, onChange, onSearch, filters }) => {
   // https://stackoverflow.com/questions/59383595/how-to-debounce-a-controlled-input
   // const getSearchResults = useCallback(
   //     debounce(value => {

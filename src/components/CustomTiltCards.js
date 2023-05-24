@@ -3,8 +3,11 @@ import React, { useContext, useEffect } from 'react'
 import Tilt from 'react-parallax-tilt'
 import CustomDataStrip from './CustomDataStrip'
 import { MyContext } from '../store/Context'
+// import { SAT_STATUS, SAT_TYPE } from '../helpers/constants'
+// import { SmileOutlined } from '@ant-design/icons'
+// import { Empty } from 'antd'
 
-const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
+const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal, setFilters, handleFilters }) => {
   const starList = useContext(MyContext)?.starlinkData?.docs
 
   useEffect(() => {
@@ -20,6 +23,7 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                   gridTemplateColumns: 'repeat(auto-fit,180px)',
                   gridTemplateRows: 'repeat(auto-fit,220px)',
                   justifyContent: 'center',
+                  alignItems: 'center',
                   width: '100%',
                   padding: '20px 20px',
                   overflow: 'hidden',
@@ -34,6 +38,34 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                 {loading &&
                 <div className='absolute w-full h-full z-20 bg-[rgba(0,0,0,0.5)] text-white'>
                 </div>} */}
+                {starList?.length === 0 &&
+                    <div className='text-white text-center poppins-400-16'>
+                        <div
+                            className='flex flex-col items-center justify-center gap-y-2'
+                        >
+                            <img className='w-16' src={require('../assets/earth.png')} />
+                            <div>No results found</div>
+                        </div>
+                        {/* <div className='mt-1 text-[rgba(30,144,255,0.8)] hover:underline hover:text-[rgba(30,144,255,1)] cursor-pointer'
+                            onClick={() => {
+                              const initialFilters = {
+                                status: SAT_STATUS.BOTH,
+                                type: SAT_TYPE.ALL,
+                                dateRange: {
+                                  startDate: null,
+                                  endDate: null
+                                }
+                              }
+                              setFilters(initialFilters)
+                              handleFilters({
+                                page: 1,
+                                limit: 10,
+                                ...initialFilters
+                              }, 'clear')
+                            }}
+                        >Clear filters</div> */}
+                    </div>
+                    }
                 {starList?.map(({ id, latitude, longitude, height_km: heightKm, velocity_kms: velocityKms, version, spaceTrack }) => (
                     <Tilt
                         key={id}

@@ -42,8 +42,8 @@ function App () {
   const postQuery = ({
     page = (starlinkData?.page || 1),
     limit = (starlinkData?.limit || 10),
-    status = (dataFilters?.status || 0),
-    type = (dataFilters?.type || undefined),
+    status = (dataFilters?.status || SAT_STATUS.BOTH),
+    type = (dataFilters?.type || SAT_TYPE.ALL),
     // search = ( dataFilters?.search || undefined ),
     dateRange = (dataFilters?.dateRange || undefined)
   }, actionType) => {

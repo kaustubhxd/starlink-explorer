@@ -17,6 +17,7 @@ const SatList = ({
                 <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
                   {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters
+                    filters={filters}
                     className={'mt-5 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
                     loading={loading}
                     data={filters}
@@ -45,6 +46,8 @@ const SatList = ({
                   selectedSat={selectedSat}
                   handleSatSelect={handleSatSelect}
                   handleModal={handleModal}
+                  setFilters={setFilters}
+                  handleFilters={handleFilters}
                 />
                 <CustomPagination
                   loading={loading}

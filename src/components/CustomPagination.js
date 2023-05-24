@@ -30,7 +30,7 @@ const CustomPagination = ({ loading, onPageChange, onLimitChange }) => {
                             showSizeChanger={false}
                             total={data?.totalDocs || 0}
                             current={data?.page || 0}
-                            // showTotal={(total, range) => total > 0 ? `${range[0]}-${range[1]} of ${total} items` : '0 results'}
+                            showTotal={(total, range) => total > 0 ? `${range[0]}-${range[1]} of ${total} items` : '0 results'}
                             pageSize={data?.limit || 0}
                             onChange={onPageChange}
                         />
