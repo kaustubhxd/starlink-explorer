@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import CustomSpinner from './CustomSpinner'
 import { ConfigProvider, Pagination } from 'antd'
 import CustomSelect from './CustomSelect'
-import { MyContext } from '../store/Context'
+import { MyContext } from './ContextProvider'
 
 const CustomPagination = ({ loading, onPageChange, onLimitChange }) => {
   const { starlinkData: data } = useContext(MyContext)

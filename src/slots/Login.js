@@ -1,20 +1,20 @@
 import React, { useContext, useState } from 'react'
 import CustomInput from '../components/CustomInput'
 import { Button, ConfigProvider, Spin } from 'antd'
-import { MyContext } from '../store/Context'
 import CustomSpinner from '../components/CustomSpinner'
 import { Formik, useFormik } from 'formik'
 import * as Yup from 'yup'
 import { client, setAuthHeader } from '../helpers/axiosClient'
 import Tilt from 'react-parallax-tilt'
 import useWindowSize from '../hooks/useWindowSize'
+import { MyContext } from '../components/ContextProvider'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [attemptingLogin, setAttemptingLogin] = useState(false)
   const [incorrectPreviousAttempt, setIncorrectPreviousAttempt] = useState(false)
 
-  const { setAuthState } = useContext(MyContext)
+  const { updateAuthToken } = useContext(MyContext)
 
   const formik = useFormik({
     initialValues: {
@@ -50,7 +50,7 @@ const Login = () => {
     }).then(res => {
       const token = res?.data?.token
       if (token) {
-        setAuthState({ token })
+        updateAuthToken(token)
         setAuthHeader(token)
       } else {
         throw new Error('Wrong username or password')

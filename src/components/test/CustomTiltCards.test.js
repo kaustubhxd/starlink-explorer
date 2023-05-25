@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 // import dayjs from 'dayjs'
-import { MyContext } from '../../store/Context'
 import CustomTiltCards from '../CustomTiltCards'
+import { MyContext } from '../ContextProvider'
 
 Element.prototype.scrollIntoView = jest.fn()
 

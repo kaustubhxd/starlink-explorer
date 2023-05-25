@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useContext } from 'react'
 import * as THREE from 'three'
 import Globe from 'react-globe.gl'
 import dayjs from 'dayjs'
-import { MyContext } from '../store/Context'
+import { MyContext } from './ContextProvider'
 const localizedFormat = require('dayjs/plugin/localizedFormat')
 dayjs.extend(localizedFormat)
 
@@ -17,8 +17,10 @@ const GLOBE_TEXTURES = [
   'https://cdn.discordapp.com/attachments/828364653800325120/1109450421858218026/earth-water4.png'
 ]
 
-export const CustomGlobe = ({ globeTexture, selectedSat, handleSatSelect }) => {
+export const CustomGlobe = () => {
   const globeEl = useRef()
+
+  const { selectedSat, updateSelectedSat, globeTexture } = useContext(MyContext)
 
   const [globeRadius, setGlobeRadius] = useState()
   const [time, setTime] = useState(new Date())
@@ -112,7 +114,7 @@ export const CustomGlobe = ({ globeTexture, selectedSat, handleSatSelect }) => {
         }}
         onClick={(e) => {
           if (e.target.className === 'clickable') return
-          handleSatSelect(null)
+          updateSelectedSat(null)
           handleGlobeRotate(true)
         }}
       >
@@ -142,7 +144,7 @@ export const CustomGlobe = ({ globeTexture, selectedSat, handleSatSelect }) => {
           objectFacesSurface={true}
           objectThreeObject={(d) => new THREE.Mesh(satGeometry(d.size), satMaterial(d.color))}
           onObjectClick={(props) => {
-            handleSatSelect(props.id)
+            updateSelectedSat(props.id)
             handleGlobeRotate(false)
           }}
           onObjectHover={() => handleGlobeRotate(false)}

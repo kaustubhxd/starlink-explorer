@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomTilt from './CustomTilt'
 import useWindowSize from '../hooks/useWindowSize'
+import { MyContext } from './ContextProvider'
 
 const ToggleItem = ({ value, id, onSelect, children, style }) => {
   const { isMobile } = useWindowSize()
@@ -22,7 +23,12 @@ const ToggleItem = ({ value, id, onSelect, children, style }) => {
   )
 }
 
-const CustomToggle = ({ value, onSelect, options }) => {
+const CustomToggle = ({ options }) => {
+  const {
+    globeTexture: value,
+    updateGlobalTexture: onSelect
+  } = useContext(MyContext)
+
   return (
     <div className='flex cursor-pointer lg:rounded-3xl overflow-hidden'>
         <ToggleItem

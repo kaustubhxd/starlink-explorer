@@ -1,64 +1,62 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomFilters from '../components/CustomFilters'
 import CustomTiltCards from '../components/CustomTiltCards'
 import CustomPagination from '../components/CustomPagination'
+import { MyContext } from '../components/ContextProvider'
+
+const LogOut = ({ style }) => {
+  const { handleLogout } = useContext(MyContext)
+
+  return (
+    <div
+      onClick={() => handleLogout()}
+      className='cursor-pointer flex items-center justify-end poppins-400-16 text-[rgba(30,144,255,0.8)] hover:underline hover:text-[rgba(30,144,255,1)]'
+      style={style}
+    >
+      Log Out
+    </div>
+  )
+}
 
 const SatList = ({
-  loading,
-  filters,
-  setFilters,
-  handleFilters,
-  selectedSat,
-  handleSatSelect,
   handleModal
 }) => {
+  const { dataFilters: filters, updateDataFilters, dataLoading: loading, selectedSat, updateSelectedSat } = useContext(MyContext)
+
   return (
     <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen lg:w-full'>
-                <div className='poppins-600-16 text-white uppercase mt-4 mb-2'>
+                <div className='poppins-600-16 text-white uppercase mt-2 mb-2'>
                   {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters
                     filters={filters}
-                    className={'mt-5 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
+                    className={'mt-2 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
                     loading={loading}
                     data={filters}
                     onChange={(actionType, value) => {
                       console.log(actionType, value)
-                      setFilters({
-                        ...filters,
-                        [actionType]: value
-                      })
-                      handleFilters({ [actionType]: value }, actionType)
-                    }}
-                    onSearch={(actionType, value) => {
-                      if (actionType === 'searching') {
-                        setFilters({
-                          ...filters,
-                          search: value
-                        })
-                      } else {
-                        handleFilters({ search: value }, actionType)
-                      }
+
+                      updateDataFilters({ [actionType]: value }, actionType)
                     }}
                   />
                 </div>
                 <CustomTiltCards
                   loading={loading}
                   selectedSat={selectedSat}
-                  handleSatSelect={handleSatSelect}
+                  updateSelectedSat={updateSelectedSat}
                   handleModal={handleModal}
-                  setFilters={setFilters}
-                  handleFilters={handleFilters}
                 />
                 <CustomPagination
                   loading={loading}
                   onPageChange={(page, limit, a, b, c, d) => {
                     console.log(page, limit, a, b, c, d)
-                    handleFilters({ page }, 'page')
+                    updateDataFilters({ page }, 'page')
                   }}
                   onLimitChange={(limit) => {
-                    handleFilters({ limit }, 'limit')
+                    updateDataFilters({ limit }, 'limit')
                   }}
                 />
+                {<LogOut style={{ padding: '0px 40px 5px 0' }} />}
+
               </div>
   )
 }

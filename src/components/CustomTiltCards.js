@@ -2,13 +2,15 @@ import dayjs from 'dayjs'
 import React, { useContext, useEffect } from 'react'
 import Tilt from 'react-parallax-tilt'
 import CustomDataStrip from './CustomDataStrip'
-import { MyContext } from '../store/Context'
+import { MyContext } from './ContextProvider'
 // import { SAT_STATUS, SAT_TYPE } from '../helpers/constants'
 // import { SmileOutlined } from '@ant-design/icons'
 // import { Empty } from 'antd'
 
-const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal, setFilters, handleFilters }) => {
+const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
   const starList = useContext(MyContext)?.starlinkData?.docs
+
+  const { updateDataFilters } = useContext(MyContext)
 
   useEffect(() => {
     const element = document.querySelector(`#card-${selectedSat}`)
@@ -56,8 +58,7 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal, s
                                   endDate: null
                                 }
                               }
-                              setFilters(initialFilters)
-                              handleFilters({
+                              updateDataFilters({
                                 page: 1,
                                 limit: 10,
                                 ...initialFilters
