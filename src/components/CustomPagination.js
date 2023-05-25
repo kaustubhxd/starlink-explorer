@@ -4,8 +4,8 @@ import { ConfigProvider, Pagination } from 'antd'
 import CustomSelect from './CustomSelect'
 import { MyContext } from './ContextProvider'
 
-const CustomPagination = ({ loading, onPageChange, onLimitChange }) => {
-  const { starlinkData: data } = useContext(MyContext)
+const CustomPagination = ({ onPageChange, onLimitChange }) => {
+  const { starlinkData: data, dataLoading: loading } = useContext(MyContext)
 
   return (
         <div className='my-2 flex lg:flex-row flex-col px-4'>

@@ -18,35 +18,19 @@ const LogOut = ({ style }) => {
   )
 }
 
-const SatList = ({
-  handleModal
-}) => {
-  const { dataFilters: filters, updateDataFilters, dataLoading: loading, selectedSat, updateSelectedSat } = useContext(MyContext)
+const SatList = () => {
+  const { dataFilters: filters, updateDataFilters } = useContext(MyContext)
 
   return (
     <div id='list-parent' className='flex flex-col lg:h-[unset] h-screen lg:w-full'>
                 <div className='poppins-600-16 text-white uppercase mt-2 mb-2'>
                   {/* <div className='text-center lg:text-start'>Starlink Satellites</div> */}
                   <CustomFilters
-                    filters={filters}
                     className={'mt-2 flex flex-wrap gap-x-4 items-baseline mb-2 justify-center'}
-                    loading={loading}
-                    data={filters}
-                    onChange={(actionType, value) => {
-                      console.log(actionType, value)
-
-                      updateDataFilters({ [actionType]: value }, actionType)
-                    }}
                   />
                 </div>
-                <CustomTiltCards
-                  loading={loading}
-                  selectedSat={selectedSat}
-                  updateSelectedSat={updateSelectedSat}
-                  handleModal={handleModal}
-                />
+                <CustomTiltCards />
                 <CustomPagination
-                  loading={loading}
                   onPageChange={(page, limit, a, b, c, d) => {
                     console.log(page, limit, a, b, c, d)
                     updateDataFilters({ page }, 'page')

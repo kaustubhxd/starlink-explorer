@@ -1,33 +1,20 @@
 import './index.css'
 import { CustomGlobe } from './components/CustomGlobe'
-import React, { useContext, useEffect, useState } from 'react'
-import { client } from './helpers/axiosClient'
+import React, { useContext } from 'react'
 import './helpers/fontStyles.css'
 import CustomToggle from './components/CustomToggle'
-import { SAT_STATUS, SAT_TYPE } from './helpers/constants'
-import CustomModal from './components/CustomModal'
 import { DownOutlined } from '@ant-design/icons'
-import { Modal } from 'antd'
 import SatList from './slots/SatList'
 import Login from './slots/Login'
 import useWindowSize from './hooks/useWindowSize'
 import { MyContext } from './components/ContextProvider'
+import SatInfoModal from './components/SatInfoModal'
 
 function App () {
   const {
-    authToken
+    authToken,
+    satInfoModal
   } = useContext(MyContext)
-
-  const [infoModal, setInfoModal] = useState({
-    open: false,
-    id: null
-  })
-
-  const handleModal = (id) => {
-    setInfoModal({
-      id, open: !!id
-    })
-  }
 
   const { isMobile } = useWindowSize()
 
@@ -59,30 +46,14 @@ function App () {
               </div>
                 : ''}
               {authToken
-                ? <SatList handleModal={handleModal} />
+                ? <SatList />
                 : <Login />
             }
 
             </div>
 
-            {infoModal?.open && (
-              <Modal
-                open={infoModal?.open}
-                centered
-                maskClosable
-                bodyStyle={{
-                  padding: 0,
-                  margin: 0
-                }}
-                footer={null}
-                closable={false}
-              >
-                <CustomModal
-                    open={infoModal?.open}
-                    id={infoModal?.id}
-                    closeModal={() => handleModal()}
-                  />
-              </Modal>
+            {satInfoModal?.open && (
+              <SatInfoModal />
             )}
 
       </div>

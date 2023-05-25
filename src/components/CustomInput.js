@@ -4,7 +4,7 @@ import React from 'react'
 const CustomInput = ({
   label, placeholder, value, className,
   type, autoComplete, suffix, name,
-  formikHook: formik, error, errorText, showError, onChange
+  formikHook: formik, error, errorText, showError, onChange, onPressEnter
 }) => {
   if (formik && name) {
     showError = showError || (formik.touched[name] && !!formik.errors[name])
@@ -33,6 +33,7 @@ const CustomInput = ({
                     bordered={false}
                     type={type}
                     autoComplete={autoComplete}
+                    onPressEnter={onPressEnter}
                 />
             </ConfigProvider>
             <div>

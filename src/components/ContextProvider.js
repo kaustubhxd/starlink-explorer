@@ -11,6 +11,16 @@ const MyContextProvider = ({ children }) => {
   const [dataLoading, setDataLoading] = useState(false)
   const [selectedSat, updateSelectedSat] = useState(null)
   const [globeTexture, updateGlobalTexture] = useState(3)
+  const [satInfoModal, setSatInfoModal] = useState({
+    open: false,
+    id: null
+  })
+
+  const handleSatInfoModal = (id) => {
+    setSatInfoModal({
+      id, open: !!id
+    })
+  }
 
   const [dataFilters, setDataFilters] = useState({
     status: SAT_STATUS.BOTH,
@@ -103,7 +113,9 @@ const MyContextProvider = ({ children }) => {
         selectedSat,
         updateSelectedSat,
         globeTexture,
-        updateGlobalTexture
+        updateGlobalTexture,
+        satInfoModal,
+        handleSatInfoModal
       }}
     >
       {children}

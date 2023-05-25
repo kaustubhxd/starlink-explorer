@@ -119,6 +119,7 @@ const Login = () => {
                           )}
                           formikHook={formik}
                           {...formik.getFieldProps('password')}
+                          onPressEnter={() => formik.handleSubmit()}
                       />
                       <div className='w-full mt-7 opacity-40 border rounded-lg'
                           style={{

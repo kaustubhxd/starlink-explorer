@@ -1,13 +1,14 @@
 import { DatePicker } from 'antd'
 import ConfigProvider from 'antd/es/config-provider'
-import React from 'react'
+import React, { useContext } from 'react'
 import CustomSelect from './CustomSelect'
 import { SAT_STATUS, SAT_TYPE } from '../helpers/constants'
 import dayjs from 'dayjs'
+import { MyContext } from './ContextProvider'
 
 const { RangePicker } = DatePicker
 
-const CustomFilters = ({ className, style, loading, data, onChange, onSearch, filters }) => {
+const CustomFilters = ({ className, style, onSearch }) => {
   // https://stackoverflow.com/questions/59383595/how-to-debounce-a-controlled-input
   // const getSearchResults = useCallback(
   //     debounce(value => {
@@ -20,6 +21,12 @@ const CustomFilters = ({ className, style, loading, data, onChange, onSearch, fi
   //   useEffect(() => {
   //     getSearchResults(data.search);
   //   }, [data.search]);
+
+  const { dataFilters: data, updateDataFilters, dataLoading: loading } = useContext(MyContext)
+
+  const onChange = (actionType, value) => {
+    updateDataFilters({ [actionType]: value }, actionType)
+  }
 
   return (
         <div className={className} style={style}>

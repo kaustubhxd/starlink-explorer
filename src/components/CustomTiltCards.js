@@ -7,10 +7,10 @@ import { MyContext } from './ContextProvider'
 // import { SmileOutlined } from '@ant-design/icons'
 // import { Empty } from 'antd'
 
-const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal }) => {
+const CustomTiltCards = () => {
   const starList = useContext(MyContext)?.starlinkData?.docs
 
-  const { updateDataFilters } = useContext(MyContext)
+  const { updateDataFilters, selectedSat, updateSelectedSat, dataLoading: loading, handleSatInfoModal: handleModal } = useContext(MyContext)
 
   useEffect(() => {
     const element = document.querySelector(`#card-${selectedSat}`)
@@ -85,8 +85,8 @@ const CustomTiltCards = ({ selectedSat, handleSatSelect, loading, handleModal })
                             onMouseDown={(e) => {
                               console.log(e.target.id)
                               if (e.target.id === 'show-more-text') {
-                                setTimeout(() => handleSatSelect(id), 300)
-                              } else handleSatSelect(id)
+                                setTimeout(() => updateSelectedSat(id), 300)
+                              } else updateSelectedSat(id)
                             }}
                             style={{
                               borderColor: selectedSat === id ? spaceTrack?.DECAYED ? '#FA7066' : '#56ED5C' : '#606771',
