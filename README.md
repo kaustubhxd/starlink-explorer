@@ -3,6 +3,8 @@
 Explore the fascinating world of SpaceX Starlink satellites and their orbital data. Our website allows you to discover real-time information about each Starlink satellite.
 With our interactive 3D globe, you can visualize the exact locations of these satellites as they orbit the Earth. Also filter by type, status and date range for historical analysis.
 
+## Demo Video: https://www.youtube.com/watch?v=-43R43ltyiE
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/-43R43ltyiE/0.jpg)](https://www.youtube.com/watch?v=-43R43ltyiE)
 
 ## Available Scripts
