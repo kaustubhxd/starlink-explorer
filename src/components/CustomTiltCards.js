@@ -78,6 +78,7 @@ const CustomTiltCards = () => {
                         tiltMaxAngleY={5}
                         glareBorderRadius='8px'
                         style={{ height: '230px', width: '180px' }}
+                        data-testid="tilt-card"
                     >
                         <div
                             id={`card-${id}`}

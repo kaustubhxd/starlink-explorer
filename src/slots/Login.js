@@ -8,6 +8,7 @@ import { client, setAuthHeader } from '../helpers/axiosClient'
 import Tilt from 'react-parallax-tilt'
 import useWindowSize from '../hooks/useWindowSize'
 import { MyContext } from '../components/ContextProvider'
+import CustomButton from '../components/CustomButton'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -121,35 +122,14 @@ const Login = () => {
                           {...formik.getFieldProps('password')}
                           onPressEnter={() => formik.handleSubmit()}
                       />
-                      <div className='w-full mt-7 opacity-40 border rounded-lg'
-                          style={{
-                            borderColor: formik.isValid ? 'rgba(86, 237, 92, 1)' : 'rgba(86, 237, 92, 0.4)',
-                            opacity: formik.isValid ? 1 : 0.4
-                          }}
+                      <CustomButton
+                        className='mt-7'
+                        disabled={!formik.isValid}
+                        onClick={() => formik.handleSubmit()}
+                        primary
                       >
-                          <ConfigProvider
-                              theme={{
-                                token: {
-                                  colorText: '#56ED5C',
-                                  colorPrimary: '#56ED5C',
-                                  // colorBorder: formik.isValid ? 'rgba(86, 237, 92, 1)' : 'rgba(86, 237, 92, 0.4)',
-                                  colorBorder: 'transparent',
-                                  colorTextDisabled: '#56ED5C'
-                                }
-                              }}
-                          >
-                              <Button
-                                  type='submit'
-                                  className='w-full h-10'
-                                  style={{
-                                    backgroundColor: 'rgba(86, 237, 92, 0.16)'
-                                  }}
-                                  onClick={() => formik.handleSubmit()}
-                              >Login</Button>
-
-                          </ConfigProvider>
-                      </div>
-                      {/* {formik.isValid.toString()} */}
+                        Login
+                      </CustomButton>
                       {incorrectPreviousAttempt && <div className='mt-2 poppins-400-13 text-[#FA7066]'>
                           Incorrect username or password
                       </div>}

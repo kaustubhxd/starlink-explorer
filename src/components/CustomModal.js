@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Tilt from 'react-parallax-tilt'
 import CustomDataStrip from '../components/CustomDataStrip'
 import { client } from '../helpers/axiosClient'
-import { CloseCircleFilled, CloseCircleOutlined } from '@ant-design/icons'
 import { Divider, Spin } from 'antd'
 import CloseCircle from '../assets/closeCircle'
 

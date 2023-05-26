@@ -1,19 +1,61 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import CustomFilters from '../components/CustomFilters'
 import CustomTiltCards from '../components/CustomTiltCards'
 import CustomPagination from '../components/CustomPagination'
 import { MyContext } from '../components/ContextProvider'
+import { ConfigProvider, Popover } from 'antd'
+import CustomButton from '../components/CustomButton'
 
 const LogOut = ({ style }) => {
   const { handleLogout } = useContext(MyContext)
 
+  const [open, setOpen] = useState(false)
+  const hide = () => {
+    setOpen(false)
+  }
+  const handleOpenChange = (newOpen) => {
+    setOpen(newOpen)
+  }
+
   return (
     <div
-      onClick={() => handleLogout()}
-      className='cursor-pointer flex items-center justify-end poppins-400-16 text-[rgba(30,144,255,0.8)] hover:underline hover:text-[rgba(30,144,255,1)]'
+      className='cursor-pointer flex items-center justify-end poppins-400-16 text-[rgba(255,255,255,0.8)] hover:underline hover:text-[rgba(255,255,255,1)]'
       style={style}
     >
-      Log Out
+      <ConfigProvider
+        theme={{
+          token: {
+            colorBgBase: 'black',
+            colorText: 'white'
+
+          }
+        }}
+      >
+        <Popover
+          content={
+          <div className='flex gap-10'>
+            <CustomButton
+              onClick={hide}
+              height={'35px'}
+            >
+              Cancel
+            </CustomButton>
+            <CustomButton
+              onClick={handleLogout}
+              height={'35px'}
+              primary
+            >
+              Yes, Logout
+            </CustomButton>
+          </div>}
+          title="Are you sure you want to logout?"
+          trigger="click"
+          open={open}
+          onOpenChange={handleOpenChange}
+        >
+          <div >Log Out</div>
+        </Popover>
+      </ConfigProvider>
     </div>
   )
 }

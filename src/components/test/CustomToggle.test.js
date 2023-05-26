@@ -1,42 +1,41 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import CustomToggle from '../CustomToggle'
+import { MyContext } from '../ContextProvider'
 
 describe('CustomToggle', () => {
   const options = [
-    { id: 'option1', label: 'Option 1' },
-    { id: 'option2', label: 'Option 2' }
+    { id: 1, label: 'Option 1' },
+    { id: 2, label: 'Option 2' }
   ]
 
-  it('renders toggle items with correct labels', () => {
-    const value = 'option1'
-    const onSelect = jest.fn()
-    const { getByText } = render(<CustomToggle value={value} onSelect={onSelect} options={options} />)
+  it('renders the toggle options', () => {
+    const { getByText } = render(
+      <MyContext.Provider value={{ globalTexture: jest.fn() }}>
+        <CustomToggle options={options} />
+      </MyContext.Provider>
 
-    expect(getByText('Option 1')).toBeInTheDocument()
-    expect(getByText('Option 2')).toBeInTheDocument()
-  })
-
-  it('calls onSelect with the selected option id', () => {
-    const value = 'option1'
-    const onSelect = jest.fn()
-    const { getByText } = render(<CustomToggle value={value} onSelect={onSelect} options={options} />)
-
-    const option2 = getByText('Option 2')
-    fireEvent.click(option2) // Simulate option selection
-
-    expect(onSelect).toHaveBeenCalledWith('option2')
-  })
-
-  it('applies active style to the selected toggle item', () => {
-    const value = 'option1'
-    const onSelect = jest.fn()
-    const { getByText } = render(<CustomToggle value={value} onSelect={onSelect} options={options} />)
+    )
 
     const option1 = getByText('Option 1')
     const option2 = getByText('Option 2')
 
-    expect(option1).toHaveStyle('background-color: rgba(96, 237, 86, 0.4)')
-    expect(option2).not.toHaveStyle('background-color: rgba(96, 237, 86, 0.4)')
+    expect(option1).toBeInTheDocument()
+    expect(option2).toBeInTheDocument()
+  })
+
+  it('calls updateGlobalTexture with the selected option', () => {
+    const mockUpdateGlobalTexture = jest.fn()
+    const { getByText } = render(
+      <MyContext.Provider value={{ updateGlobalTexture: mockUpdateGlobalTexture }}>
+        <CustomToggle options={options} />
+      </MyContext.Provider>
+    )
+
+    const option2 = getByText('Option 2')
+    fireEvent.click(option2)
+
+    expect(mockUpdateGlobalTexture).toHaveBeenCalledTimes(1)
+    expect(mockUpdateGlobalTexture).toHaveBeenCalledWith(2) // Adjust the expected value based on your test case
   })
 })
